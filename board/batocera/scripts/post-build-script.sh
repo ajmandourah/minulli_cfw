@@ -130,7 +130,7 @@ fi
 OS_RELEASE_PATH="${TARGET_DIR}/etc/os-release"
 if ! grep -q "^OS_NAME=" "$OS_RELEASE_PATH"; then
     # If OS_NAME is not found, append it
-    echo "OS_NAME=\"knulli\"" >> "$OS_RELEASE_PATH"
+    echo "OS_NAME=\"Minulli\"" >> "$OS_RELEASE_PATH"
 fi
 SUFFIXVERSION=$(cat "${TARGET_DIR}/usr/share/batocera/batocera.version" | sed -e s+'^\([0-9\.]*\).*$'+'\1'+) # xx.yy version
 SUFFIXDATE=$(date +%Y%m%d)

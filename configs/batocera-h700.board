@@ -9,7 +9,7 @@ BR2_TARGET_OPTIMIZATION="-pipe -fsigned-char -mcpu=cortex-a53 -mtune=cortex-a53"
 #BR2_TARGET_GENERIC_GETTY_PORT="tty1"
 BR2_TARGET_GENERIC_GETTY_BAUDRATE_115200=y
 BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/patches"
-BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/fsoverlay"
+BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg28xx/fsoverlay"
 BR2_TARGET_ROOTFS_SQUASHFS4_GZIP=y
 
 # batocera splash screen
@@ -72,7 +72,7 @@ BR2_PACKAGE_UTIL_LINUX_MOUNT=y
 BR2_PACKAGE_ANDROID_TOOLS=y
 BR2_PACKAGE_ANDROID_TOOLS_ADBD=y
 
-# SDL1 
+# SDL1
 BR2_PACKAGE_SDL=y
 BR2_PACKAGE_SDL_FBCON=y
 BR2_PACKAGE_SDL_GFX=y
@@ -90,5 +90,5 @@ BR2_PACKAGE_GPTFDISK_GDISK=y
 BR2_PACKAGE_GPTFDISK_SGDISK=y
 
 # MISC
-BR2_PACKAGE_PYTHON3_XZ=Y
+BR2_PACKAGE_PYTHON3_XZ=y
 
