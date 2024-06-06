@@ -20,6 +20,13 @@ There are several reasons for the slow release:
 
 That aside expect an alpha build soon.
 
+## Todo
+- Shrink down the image size
+- Implement quick save before shutdown script and a load after startup
+- Simplify menu tree
+- remap retroarch button to match stock firmware
+- remap menu button in batocera to start menu
+- Create a test env
 
 ## Directory navigation
 
