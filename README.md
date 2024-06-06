@@ -9,6 +9,8 @@ This CFW is mainly aimed toward the Anbrenic RG28xx.
 ## Why Minulli
 Knulli is a great firmware but i felt its a little bit bloated. The aim is to create as minimal batocera as possible removing packages that we don't need and add QoL features from various CFW. 
 
+Most of us already tried the stock firmware and in that time you get used to it. especially the mappings and the features. Transitioning to a CFW will confuse most of people especially when it comes to batocera. Thats why I intend to implement stock features and implement its mapping for the ease of use. of course these are customizable if you wish to do so afterwords.
+
 ## Why RG28xx only
 The main reason it is what i have in my hands right now. Additionally the number of CFW for this great portable device is scarse so I took the challange and started tinkering around.
 
