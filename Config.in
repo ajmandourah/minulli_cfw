@@ -128,7 +128,7 @@ menu "Emulationstation"
   source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/batocera-emulationstation/Config.in"
   source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/batocera-es-system/Config.in"
   source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/es-theme-minima/Config.in"
-  # source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/es-theme-art-book-next/Config.in"
+  source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/es-theme-epic-dark/Config.in"
   source "$BR2_EXTERNAL_BATOCERA_PATH/package/batocera/emulationstation/es-background-musics/Config.in"
 endmenu
 

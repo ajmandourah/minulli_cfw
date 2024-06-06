@@ -1,0 +1,5 @@
+config BR2_PACKAGE_ES_THEME_ART_BOOK_NEXT
+	bool "EmulationStation theme epic dark (Batocera version)"
+	help
+	  https://github.com/torresflo/ES-Theme-Epic-Dark
+
