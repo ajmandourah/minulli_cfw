@@ -1,26 +1,23 @@
-[![Activity](https://img.shields.io/github/commit-activity/m/knulli-cfw/distribution)](https://github.com/knulli-cfw/distribution)
-[![PR](https://img.shields.io/github/issues-pr-closed/knulli-cfw/distribution)](https://github.com/knulli-cfw/distribution)
-[![Stars](https://img.shields.io/github/stars/knulli-cfw?style=social)](https://github.com/knulli-cfw/distribution)
-[![Forks](https://img.shields.io/github/forks/knulli-cfw/distribution?style=social)](https://github.com/knulli-cfw/distribution)
-[![Website](https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https%3A%2F%2Fwww.knulli.org)](https://knulli.org)
-[![Discord Server](https://img.shields.io/discord/357518249883205632.svg)](https://discord.gg/HXPS3DAeeB)
+![image](https://github.com/ajmandourah/Minulli/assets/27051374/914daa7c-6ca9-4715-a063-038bdbc7e6e8)
 
-## :video_game::penguin: Knulli CFW :video_game::penguin:
-Knulli CFW is a fork of the open-source and completely free retro-gaming distribution batocera that can be copied to an SD card with the aim of improving many of the emulation handhelds on the market that usually ship with incomplete and often non GPL compliant software. It supports [many emulators and game engines](https://www.batocera.org/compatibility.php) out of the box. 
+# Minulli
+Minulli CFW is a fork of Knulli which is a fork of the open-source and completely free retro-gaming distribution batocera that can be copied to an SD card with the aim of improving many of the emulation handhelds on the market that usually ship with incomplete and often non GPL compliant software. It supports [many emulators and game engines](https://www.batocera.org/compatibility.php) out of the box. 
+This CFW is mainly aimed toward the Anbrenic RG28xx.
 
-## Get information on the project
+## Why Minulli
+Knulli is a great firmware but i felt its a little bit bloated. The aim is to create as minimal batocera as possible removing packages that we don't need and add QoL features from various CFW. 
 
- - :globe_with_meridians: Browse our [website](https://knulli.org) for general information (Downloads coming soon)
- - :memo: Documentation is available on our [wiki](https://knulli.org) and frequently updated
- - :speech_balloon: Discuss any topic with the community on our [Discord Server](https://discord.gg/HXPS3DAeeB)
+## Why RG28xx only
+The main reason it is what i have in my hands right now. Additionally the number of CFW for this great portable device is scarse so I took the challange and started tinkering around.
 
-## Do you need help with KNULLI?
+## When will you release it
+There are several reasons for the slow release:
+- My experience in CFW is little in comparision to the legends in the field.
+- The compilation time is so long. around 2 hours minimal and 5 if I want to compile everything. you can imagine testing features will take time.
+- The RG28xx support is complex.
 
- - :sos: The most effective way is to join our [Discord Server](https://discord.gg/HXPS3DAeeB) and go to the \#questions channel
+That aside expect an alpha build soon.
 
-## How can you help Knulli?
-
- - :wrench: If you want to help with development, [we accept PRs](https://makeapullrequest.com/) -- anyone is welcome, we embrace the [Bazaar development principles](https://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar)
 
 ## Directory navigation
 
