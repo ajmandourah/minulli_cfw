@@ -1,4 +1,4 @@
 config BR2_PACKAGE_ES_THEME_CARBON
-	bool "EmulationStation theme Carbon (Batocera version)"
+	bool "EmulationStation theme minima (Batocera version)"
 	help
-	  https://github.com/fabricecaruso/es-theme-carbon
+	  https://github.com/soaremicheledavid/ES-Theme-MINIMA
