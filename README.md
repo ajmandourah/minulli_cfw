@@ -1,4 +1,6 @@
-![image](https://github.com/ajmandourah/Minulli/assets/27051374/914daa7c-6ca9-4715-a063-038bdbc7e6e8)
+<p align="center">
+  <img width="460" height="300" src="https://github.com/ajmandourah/Minulli/assets/27051374/914daa7c-6ca9-4715-a063-038bdbc7e6e8">
+</p>
 
 # Minulli
 Minulli CFW is a fork of [Knulli](https://github.com/knulli-cfw/distribution) which is a fork of the open-source and completely free retro-gaming distribution batocera that can be copied to an SD card with the aim of improving many of the emulation handhelds on the market that usually ship with incomplete and often non GPL compliant software. It supports [many emulators and game engines](https://www.batocera.org/compatibility.php) out of the box. 
