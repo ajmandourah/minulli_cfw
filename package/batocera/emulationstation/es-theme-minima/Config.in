@@ -1,4 +1,4 @@
-config BR2_PACKAGE_ES_THEME_CARBON
+config BR2_PACKAGE_ES_THEME_MINIMA
 	bool "EmulationStation theme minima (Batocera version)"
 	help
 	  https://github.com/soaremicheledavid/ES-Theme-MINIMA
