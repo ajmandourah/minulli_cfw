@@ -98,6 +98,14 @@ do
     rm -f "${BATOCERA_BINARIES_DIR}/boot.vfat" || exit 1
     rm -f "${BATOCERA_BINARIES_DIR}/userdata.ext4" || exit 1
     mv "${BATOCERA_BINARIES_DIR}/batocera.img" "${BATOCERAIMG}" || exit 1
+    # ###############################
+    # #format here
+    # ###############################
+    # echo "Setting loop device"
+    # LOOP_DEV_NAME=$(sudo losetup --partscan --show --find "${BATOCERAIMG}" || exit 1)
+    # echo "Formating to exfat"
+    # mkfs.exfat ${LOOP_DEV_NAME}p4 || exit 1
+    # sudo losetup -d ${LOOP_DEV_NAME} || exit 1
     gzip "${BATOCERAIMG}" || exit 1
 
     # rename the boot to boot_arch

@@ -101,7 +101,7 @@ dl-dir:
 		make O=/$* BR2_EXTERNAL=/build -C /build/buildroot batocera-$*_defconfig
 
 %-build: batocera-docker-image %-config ccache-dir dl-dir
-	@$(DOCKER) run -t --init --rm \
+	@$(DOCKER) run -t --init --rm --privileged \
 		-v $(PROJECT_DIR):/build \
 		-v $(DL_DIR):/build/buildroot/dl \
 		-v $(OUTPUT_DIR)/$*:/$* \
