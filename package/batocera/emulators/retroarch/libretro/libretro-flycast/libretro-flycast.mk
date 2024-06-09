@@ -3,8 +3,8 @@
 # libretro-flycast
 #
 ################################################################################
-# Version: Commits on Mar 15, 2024
-LIBRETRO_FLYCAST_VERSION = v2.3
+
+LIBRETRO_FLYCAST_VERSION = v2.3.2
 LIBRETRO_FLYCAST_SITE = https://github.com/flyinghead/flycast.git
 LIBRETRO_FLYCAST_SITE_METHOD=git
 LIBRETRO_FLYCAST_GIT_SUBMODULES=YES
@@ -52,8 +52,9 @@ else ifeq ($(BR2_PACKAGE_BATOCERA_TARGET_XU4),y)
     LIBRETRO_FLYCAST_CONF_OPTS += -DODROIDXU4=ON
 else ifeq ($(BR2_PACKAGE_BATOCERA_TARGET_S922X),y)
     LIBRETRO_FLYCAST_CONF_OPTS += -DS922X=ON
+else ifeq ($(BR2_PACKAGE_BATOCERA_TARGET_ATM7039),y)
+    LIBRETRO_FLYCAST_CONF_OPTS += -DS922X=ON
 endif
-    LIBRETRO_FLYCAST_CONF_OPTS += -DS922X=OFF
 
 define LIBRETRO_FLYCAST_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/flycast_libretro.so \

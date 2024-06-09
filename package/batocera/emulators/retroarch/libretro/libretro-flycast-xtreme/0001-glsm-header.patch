@@ -1,0 +1,12 @@
+--- a/core/libretro-common/include/glsm/glsm.h	2024-06-08 10:43:13.115987639 -0400
++++ b/core/libretro-common/include/glsm/glsm.h	2024-06-08 10:43:22.267949003 -0400
+@@ -32,7 +32,7 @@
+ RETRO_BEGIN_DECLS
+ 
+ #ifdef HAVE_OPENGLES2
+-typedef GLfloat GLdouble;
++typedef double GLdouble;
+ typedef GLclampf GLclampd;
+ #endif
+ 
+

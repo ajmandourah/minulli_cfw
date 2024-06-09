@@ -1,0 +1,15 @@
+--- libretro-uae4arm-177c2f0e892adf2603ada9b150e31beffe0f76c3/Makefile	2022-04-22 09:29:42.000000000 +0000
++++ uae/Makefile	2024-06-06 15:58:24.765748596 +0000
+@@ -9,6 +9,12 @@
+ 	HAVE_NEON = 1
+ 	HAVE_DISPMANX = 1
+ 	USE_PICASSO96 = 1
++else ifeq ($(PLATFORM),arm-gles)
++        CPU_FLAGS += -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
++        MORE_CFLAGS += -DRASPBERRY -DCAPSLOCK_DEBIAN_WORKAROUND -DARMV6T2 -DARM_HAS_DIV -DARMV6_ASSEMBLY -marm
++        HAVE_NEON = 1
++        HAVE_DISPMANX = 1
++        USE_PICASSO96 = 1
+ else ifeq ($(PLATFORM),rpi1)
+ 	CPU_FLAGS += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
+ 	MORE_CFLAGS += -DRASPBERRY -DCAPSLOCK_DEBIAN_WORKAROUND -DARMV6_ASSEMBLY -marm

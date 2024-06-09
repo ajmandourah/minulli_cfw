@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+set -x
 # PWD = source dir
 # BASE_DIR = build dir
 # BUILD_DIR = base dir/build

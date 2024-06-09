@@ -425,6 +425,8 @@ dreamcast:
     libretro:
       flycast:      { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST] }
       flycastvl:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCASTVL] }
+      flycast-xtreme: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST_XTREME] }
+      morpheuscast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_MORPHEUSCAST] }
     flycast:
       flycast:        { requireAnyOf: [BR2_PACKAGE_FLYCAST]          }
     redream:
@@ -449,6 +451,8 @@ naomi:
     libretro:
       flycast:      { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST]  }
       flycastvl:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCASTVL] }
+      flycast-xtreme:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST_XTREME] }
+      morpheuscast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_MORPHEUSCAST] }
     flycast:
       flycast:  { requireAnyOf: [BR2_PACKAGE_FLYCAST]           }
     demul:
@@ -465,6 +469,8 @@ atomiswave:
     libretro:
       flycast:      { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST] }
       flycastvl:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCASTVL] }
+      flycast-xtreme:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST_XTREME] }
+      morpheuscast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_MORPHEUSCAST] }
     flycast:
       flycast: { requireAnyOf: [BR2_PACKAGE_FLYCAST]          }
     demul:
@@ -480,6 +486,8 @@ systemsp:
   emulators:
     libretro:
       flycast:  { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST]  }
+      flycast-xtreme:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST_XTREME] }
+      morpheuscast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_MORPHEUSCAST] }
     flycast:
       flycast:  { requireAnyOf: [BR2_PACKAGE_FLYCAST]           }
 
@@ -3748,6 +3756,8 @@ naomi2:
   emulators:
     libretro:
       flycast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST] }
+      flycast-xtreme:    { requireAnyOf: [BR2_PACKAGE_LIBRETRO_FLYCAST_XTREME] }
+      morpheuscast: { requireAnyOf: [BR2_PACKAGE_LIBRETRO_MORPHEUSCAST] }
     flycast:
       flycast: { requireAnyOf: [BR2_PACKAGE_FLYCAST]          }
     demul:

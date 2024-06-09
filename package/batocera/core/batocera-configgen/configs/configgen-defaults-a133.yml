@@ -9,7 +9,7 @@ default:
     retroarch.menu_scale_factor: 1.500000
 
 nds:
-  emulator: libretro
+  emulator: drastic
   core:     drastic
 fmtowns:
   emulator: libretro
@@ -17,4 +17,12 @@ fmtowns:
 flash:
   emulator: lightspark
   core:     lightspark
-
+atomiswave:
+  emulator: libretro
+  core:     flycastvl
+dreamcast:
+  emulator: libretro
+  core:     flycastvl
+naomi:
+  emulator: libretro
+  core:     flycastvl
