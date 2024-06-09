@@ -34,7 +34,7 @@ RUN dpkg --add-architecture i386 && \
 		device-tree-compiler \
 		gettext \
 		locales \
-		graphviz \
+		graphviz fdisk exfatprogs exfat-fuse\
 		python3 \
 		gcc-multilib \
 		g++-multilib \
