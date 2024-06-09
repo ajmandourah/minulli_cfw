@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if test -e /root/.exfat; then
-	echo "it exist"
-else
-	batocera-format format INTERNAL exfat
-	touch /root/.exfat
-	reboot
-fi
+# if test -e /root/.exfat; then
+# 	echo "it exist"
+# else
+# 	batocera-format format INTERNAL exfat
+# 	touch /root/.exfat
+# 	reboot
+# fi

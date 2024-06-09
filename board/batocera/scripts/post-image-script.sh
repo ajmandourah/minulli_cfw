@@ -111,17 +111,21 @@ do
     echo $PART_END
     echo $PART_SIZE
     echo "Extracting the exfat partion"
-    dd if="${BATOCERAIMG}" of=${BATOCERA_BINARIES_DIR}/temp.img bs=512 skip=$PART_START count=$PART_SIZE
-    echo "formating to exfat"
-    mkfs.exfat -L "SHARE" -b 1M ${BATOCERA_BINARIES_DIR}/temp.img || exit 1
-    echo "reinsert the partion back "
-    dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
+
     fdisk "${BATOCERAIMG}" <<EOF
     t
     4
     11
     w
 EOF
+
+    dd if="${BATOCERAIMG}" of=${BATOCERA_BINARIES_DIR}/temp.img bs=512 skip=$PART_START count=$PART_SIZE
+
+    echo "formating to exfat"
+    mkfs.exfat -L "SHARE" -b 1M ${BATOCERA_BINARIES_DIR}/temp.img || exit 1
+    echo "reinsert the partion back "
+    dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
+
 
     # LOOP_DEV_NAME=$(sudo losetup --partscan --show --find "${BATOCERAIMG}" || exit 1)
     # echo "Formating to exfat"
