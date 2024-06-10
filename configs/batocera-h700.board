@@ -12,6 +12,12 @@ BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg28xx/fsoverlay"
 BR2_TARGET_ROOTFS_SQUASHFS4_GZIP=y
 
+# DRM for display
+BR2_PACKAGE_WAYLAND=y
+# BR2_PACKAGE_HAS_LIBGL=y
+
+#
+#
 # batocera splash screen
 BR2_PACKAGE_BATOCERA_SPLASH_MPV=y
 

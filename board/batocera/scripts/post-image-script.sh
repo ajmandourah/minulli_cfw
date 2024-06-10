@@ -126,11 +126,6 @@ EOF
     echo "reinsert the partion back "
     dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
 
-
-    # LOOP_DEV_NAME=$(sudo losetup --partscan --show --find "${BATOCERAIMG}" || exit 1)
-    # echo "Formating to exfat"
-    # mkfs.exfat ${LOOP_DEV_NAME}p4 || exit 1
-    # sudo losetup -d ${LOOP_DEV_NAME} || exit 1
     echo "Compressing the image"
     gzip "${BATOCERAIMG}" || exit 1
 
