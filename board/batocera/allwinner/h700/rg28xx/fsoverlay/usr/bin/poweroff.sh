@@ -1,13 +1,17 @@
 #!/bin/sh
 
-function retroarch_down() {
-    while pidof retroarch > /dev/null; do /usr/bin/retroarch --verbose --command QUIT; sleep 0.1; done
-    touch /userdata/.last
-    sync
-    shutdown -h now
-    while true; do sleep 5; done
-
-}
+# LAST_GAME=`grep '"path":' ${RA_CONTENT_HISTORY} | head -1`
+# LAST_CORE=
+#
+# function retroarch_down()
+# {
+#     while pidof retroarch > /dev/null; do /usr/bin/retroarch --verbose --command QUIT; sleep 0.1; done
+#     touch /userdata/.last
+#     sync
+#     shutdown -h now
+#     while true; do sleep 5; done
+#
+# }
 # Save ALSA mixer state
 # alsactl store 0 -f /userdata/system/.asound.state
 

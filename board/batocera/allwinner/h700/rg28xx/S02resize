@@ -57,15 +57,11 @@ function textoutput()
     sgdisk -e ${DISK}
     parted -s -m ${DISK} align-check opt ${PARTNUM}
     parted -s -m ${DISK} resizepart ${PARTNUM} 100%
+    #set the partition to be recognizable in windows
     parted -s -m ${DISK} set ${PARTNUM} msftdata on
 
-    #
-    # In case of error fix the GPT to use all the space
-    # echo "resizepart\nFix\n4\nyes\n\nquit\n" | parted ${DISK}
-    # echo "resizepart\n4\nyes\n\nquit\n" | parted ${DISK}
     partprobe ${DISK}
     echo "formatting the disk "
-    #mkfs.vfat -n SHARE ${PART}
     mkfs.exfat -n SHARE ${PART}
 
     # Restore bootloader
