@@ -58,6 +58,8 @@ do
     cp -pr "${BINARIES_DIR}/tools"              "${BATOCERA_BINARIES_DIR}/boot/" || exit 1
     cp     "${BINARIES_DIR}/batocera-boot.conf" "${BATOCERA_BINARIES_DIR}/boot/" || exit 1
     echo   "${BATOCERA_SUBTARGET}" > "${BATOCERA_BINARIES_DIR}/boot/boot/batocera.board" || exit 1
+    # echo -e "\n#formating at initial start:\nformat-internal=exfat" >> ${BATOCERA_BINARIES_DIR}/boot/batocera-boot.conf
+    touch ${BATOCERA_BINARIES_DIR}/boot/boot/first_boot
 
     #### boot.tar.xz ###############
     echo "creating images/${BATOCERA_SUBTARGET}/boot.tar.xz"
@@ -125,8 +127,7 @@ do
     # mkfs.exfat -L "SHARE" -b 1M ${BATOCERA_BINARIES_DIR}/temp.img || exit 1
     # echo "reinsert the partion back "
     # dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
-    # Setting the partition to Microsoft basic data. format later on first boot.
-    sgdisk -t 4:0700 "${BATOCERAIMG}"
+    # sgdisk -t 4:0700 "${BATOCERAIMG}"
     echo "Compressing the image"
     gzip "${BATOCERAIMG}" || exit 1
 
