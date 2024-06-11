@@ -54,8 +54,11 @@ function textoutput()
     # Backup bootloader
 #    dd if=/dev/mmcblk0 bs=1 skip=8192 count=$((0x10000)) of=/tmp/boot_backup.img
     echo "isuue parted commands the disk"
-    sgdisk -e ${DISK}
+    # sgdisk -e ${DISK}
     parted -s -m ${DISK} align-check opt ${PARTNUM}
+    parted -s -m ${DISK} ---pretend-input-tty align-check opt ${PARTNUM} Yes
+    parted ${DISK} <<EOF
+
     parted -s -m ${DISK} resizepart ${PARTNUM} 100%
     #set the partition to be recognizable in windows
     parted -s -m ${DISK} set ${PARTNUM} msftdata on
@@ -63,6 +66,7 @@ function textoutput()
     partprobe ${DISK}
     echo "formatting the disk "
     mkfs.exfat -n SHARE ${PART}
+    partprobe ${DISK}
 
     # Restore bootloader
 #    dd if=/tmp/boot_backup.img of=/dev/mmcblk0 bs=1024 seek=8

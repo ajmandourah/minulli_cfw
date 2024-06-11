@@ -101,31 +101,32 @@ do
     # ###############################
     # #format here
     # ###############################
-    echo "Getting offset size"
-    echo $(fdisk -l "${BATOCERAIMG}")
-    PART_START=$(fdisk -l "${BATOCERAIMG}" | awk -v part_num=4 '$1 ~ /img/ {count++} count == part_num {print $2}')
-    PART_END=$(fdisk -l "${BATOCERAIMG}" | awk -v part_num=4 '$1 ~ /img/ {count++} count == part_num {print $3}')
-    PART_SIZE=$((PART_END-PART_START))
+    # echo "Getting offset size"
+    # echo $(fdisk -l "${BATOCERAIMG}")
+    # PART_START=$(fdisk -l "${BATOCERAIMG}" | awk -v part_num=4 '$1 ~ /img/ {count++} count == part_num {print $2}')
+    # PART_END=$(fdisk -l "${BATOCERAIMG}" | awk -v part_num=4 '$1 ~ /img/ {count++} count == part_num {print $3}')
+    # PART_SIZE=$((PART_END-PART_START))
 
-    echo $PART_START
-    echo $PART_END
-    echo $PART_SIZE
-    echo "Extracting the exfat partion"
+    # echo $PART_START
+    # echo $PART_END
+    # echo $PART_SIZE
+    # echo "Extracting the exfat partion"
 
-    fdisk "${BATOCERAIMG}" <<EOF
-    t
-    4
-    11
-    w
-EOF
+#     fdisk "${BATOCERAIMG}" <<EOF
+#     t
+#     4
+#     11
+#     w
+# EOF
+#
+#     dd if="${BATOCERAIMG}" of=${BATOCERA_BINARIES_DIR}/temp.img bs=512 skip=$PART_START count=$PART_SIZE
 
-    dd if="${BATOCERAIMG}" of=${BATOCERA_BINARIES_DIR}/temp.img bs=512 skip=$PART_START count=$PART_SIZE
-
-    echo "formating to exfat"
-    mkfs.exfat -L "SHARE" -b 1M ${BATOCERA_BINARIES_DIR}/temp.img || exit 1
-    echo "reinsert the partion back "
-    dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
-
+    # echo "formating to exfat"
+    # mkfs.exfat -L "SHARE" -b 1M ${BATOCERA_BINARIES_DIR}/temp.img || exit 1
+    # echo "reinsert the partion back "
+    # dd if=${BATOCERA_BINARIES_DIR}/temp.img of="${BATOCERAIMG}" bs=512 seek=$PART_START conv=notrunc
+    # Setting the partition to Microsoft basic data. format later on first boot.
+    sgdisk -t 4:0700 "${BATOCERAIMG}"
     echo "Compressing the image"
     gzip "${BATOCERAIMG}" || exit 1
 
