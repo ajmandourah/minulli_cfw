@@ -8,20 +8,22 @@ test "$1" != "start" && exit 0
 
 # First boot afte flashing
 #
+function format_exfat()
+{
 mount -o remount,rw /boot
 if [[ -f /boot/boot/first_boot ]]; then
-	# remove the triggerA
+	# remove the trigger
 	rm -f /boot/boot/first_boot
 
 	mkfs.exfat -n SHARE /dev/mmcblk0p4
-	gdisk ${DISK}<<EOF
+	gdisk $1 <<EOF
 t
 4
 0700
 w
 Y
 EOF
-	gdisk ${DISK}<<EOF
+	gdisk $1 <<EOF
 r
 b
 c
@@ -29,11 +31,11 @@ Y
 w
 Y
 EOF
-	parted -s -m ${DISK} set 4 msftdata on
-	partprobe ${DISK}
+	parted -s -m $1 set $2 msftdata on
+	partprobe $1
 	mount -o remount,ro /boot
 fi
-
+}
 
 # true if triggers are not available or not set to do so
 if ! grep -qE '^[ ]*autoresize[ ]*=[ ]*true[ ]*$' "${BOOTCONF}" && ! grep -qE '^[ ]*format-internal[ ]*=' "${BOOTCONF}"
@@ -141,6 +143,7 @@ then
     # Allwinner H700
     echo -e 'r\nb\nc\nY\nw\nY\n' | gdisk ${DISK}
     partprobe ${DISK}
+    format_exfat ${DISK} ${PARTNUM}
 
 else
     ###### format internal share #####
