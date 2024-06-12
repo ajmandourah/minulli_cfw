@@ -6,6 +6,12 @@
 . /etc/profile.d/xdg.sh
 . /etc/profile.d/dbus.sh
 
+
+function log()
+{
+	echo $1 >> /userdata/audioconfig.log
+}
+
 apply_audioconfig() {
     DEVICE=$1
     PROFILE=$2
@@ -44,6 +50,7 @@ apply_audioconfig() {
     # but in case set ou set-profile fails, always set volume
     # because in case the audio card doesn't exist,
     # it is nice to have the volume applied on the default output
+    log "Set via batocera-audio at apply. volume=${VOLUME}"
     batocera-audio setSystemVolume "${VOLUME}"  || return 1
     return ${EXITCODE}
 }
@@ -57,6 +64,7 @@ try_apply_audioconfig() {
     while test "${N}" -gt 0
     do
 	echo "retry applying audio (${N})" >&2
+	log "retry applying audio (${N})"
 	if apply_audioconfig "${DEVICE}" "${PROFILE}" "${VOLUME}"
 	then
 	    return 0
@@ -64,6 +72,7 @@ try_apply_audioconfig() {
 	sleep 2
 	let N--
     done
+    log "Could not start apply configs the values for device,profile and volume are "${DEVICE}" "${PROFILE}" "${VOLUME}" "
     return 1
 }
 
@@ -74,11 +83,12 @@ start_audioconfig() {
     # set default device and volume
     DEVICE=$(/usr/bin/batocera-settings-get-master audio.device)
     PROFILE=$(/usr/bin/batocera-settings-get-master audio.profile)
-    VOLUME=$(cat /userdata/system/.volume)
+    VOLUME=$(/usr/bin/batocera-settings-get-master audio.volume)
+    log "start_audioconfig getting volume from get-master volume=${VOLUME}"
     test -z "${DEVICE}"  && DEVICE=auto
     test -z "${PROFILE}" && PROFILE=auto
-    test -z "${VOLUME}"  && VOLUME=30
-
+    test -z "${VOLUME}"  && VOLUME=80
+    log "Testing values and set the default 80 if not reach. volume="${VOLUME}
     if ! apply_audioconfig "${DEVICE}" "${PROFILE}" "${VOLUME}"
     then
 	# in case it didn't work, we call in backgroud a function
@@ -91,7 +101,9 @@ start_audioconfig() {
 }
 
 stop_audioconfig() {
-    	VOLUME=$(cat /userdata/system/.volume)
+	log "stop_audioconfig getting the volume from bato-audio. volume=${VOLUME}"
+    	VOLUME=$(batocera-audio getSystemVolume)
+	# if [[ -z "$(VOLUME)" ]]; then VOLUME=0; fi
 	/usr/bin/batocera-settings-set audio.volume "${VOLUME}"
 	echo "OK"
 }
@@ -103,6 +115,7 @@ restart() {
 
 case "$1" in
  	start)
+		log "starting the audioconfig.. volume should be 0 volume=${VOLUME}"
 		# alsactl restore 0 -f /userdata/system/.asound.state
 		amixer -c 0 sset LINEOUT on
 		amixer -c 0 sset "OutputL Mixer DACL" on
@@ -110,13 +123,17 @@ case "$1" in
 		amixer -c 0 sset "OutputR Mixer DACL" on
 		amixer -c 0 sset "OutputR Mixer DACR" on
 		# FIXME: set audio by default to internal speaker
+		log "attempting to set the default to internal speaker. volume=${VOLUME}"
 		batocera-audio set alsa_output._sys_devices_platform_soc_soc_03000000_codec_mach_sound_card0.stereo-fallback
 		start_audioconfig
+		log "audio sat to internal speaker. volume=${VOLUME}"
 	;;
  	stop)
+		log "stop audioconfig"
 		stop_audioconfig
 	;;
  	restart|reload)
+		log "restarting audioconfig"
 		restart
 	;;
 	*)
