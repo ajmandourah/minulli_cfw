@@ -91,7 +91,7 @@ start_audioconfig() {
 }
 
 stop_audioconfig() {
-    	VOLUME=$(batocera-audio getSystemVolume)
+	VOLUME=$(batocera-audio getSystemVolume)
 	/usr/bin/batocera-settings-set audio.volume "${VOLUME}"
 	echo "OK"
 }

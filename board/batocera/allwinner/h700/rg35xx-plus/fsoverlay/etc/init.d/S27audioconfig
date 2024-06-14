@@ -91,7 +91,7 @@ start_audioconfig() {
 }
 
 stop_audioconfig() {
-    	VOLUME=$(batocera-audio getSystemVolume)
+	VOLUME=$(batocera-audio getSystemVolume)
 	/usr/bin/batocera-settings-set audio.volume "${VOLUME}"
 	echo "OK"
 }
@@ -104,14 +104,6 @@ restart() {
 case "$1" in
  	start)
 		start_audioconfig
-		alsactl restore 0 -f /userdata/system/.asound.state
-		amixer -c 0 sset LINEOUT on
-		amixer -c 0 sset "OutputL Mixer DACL" on
-		amixer -c 0 sset "OutputL Mixer DACR" on
-		amixer -c 0 sset "OutputR Mixer DACL" on
-		amixer -c 0 sset "OutputR Mixer DACR" on
-		# FIXME: set audio by default to internal speaker
-		batocera-audio set alsa_output._sys_devices_platform_soc_soc_03000000_codec_mach_sound_card0.stereo-fallback
 	;;
  	stop)
 		stop_audioconfig
