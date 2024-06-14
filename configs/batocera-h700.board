@@ -12,7 +12,8 @@ BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg28xx/fsoverlay"
 BR2_TARGET_ROOTFS_SQUASHFS4_GZIP=y
 
-
+#BR2_PACKAGE_VALGRIND=y
+#BR2_ENABLE_DEBUG=y
 #
 #
 # batocera splash screen
