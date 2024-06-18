@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ajmandourah/Minulli/assets/27051374/914daa7c-6ca9-4715-a063-038bdbc7e6e8">
+  <img src="https://github.com/ajmandourah/minulli_cfw/assets/27051374/788478a6-3f7f-4877-8822-7d6564bcbefe">
 </p>
 
 # Minulli
