@@ -7,10 +7,12 @@ default:
     # menu retroarch
     retroarch.menu_driver: rgui
     retroarch.rgui_menu_color_theme: 35
-    retroarch.menu_rgui_transparency: false
     retroarch.menu_scale_factor: "1.500000"
     retroarch.audio_driver: alsathread
     retroarch.config_save_on_exit: true
+    retroarch.savestate_auto_save: true
+    retroarch.savestate_auto_load: false
+    retroarch.network_cmd_enable: true
     retroarch.input_menu_toggle_btn: 14
     retroarch.input_load_state_btn: 7
     retroarch.input_save_state_btn: 8

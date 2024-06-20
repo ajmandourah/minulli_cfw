@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Paths
+POWER_BUTTON_STATE="/var/run/power-button-state.flag"
+
+echo "0" > "$POWER_BUTTON_STATE"
+
+exit 0
+

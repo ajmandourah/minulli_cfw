@@ -1,24 +1,17 @@
 #!/bin/sh
 
-# LAST_GAME=`grep '"path":' ${RA_CONTENT_HISTORY} | head -1`
-# LAST_CORE=
-#
-# function retroarch_down()
-# {
-#     while pidof retroarch > /dev/null; do /usr/bin/retroarch --verbose --command QUIT; sleep 0.1; done
-#     touch /userdata/.last
-#     sync
-#     shutdown -h now
-#     while true; do sleep 5; done
-#
-# }
 # Save ALSA mixer state
 # alsactl store 0 -f /userdata/system/.asound.state
 
 # Try to stop all processes cleanly
-# /etc/init.d/rcK
-echo $(batocera-audio getSystemVolume) > /userdata/system/.volume
+#/etc/init.d/rcK
 sync
+#vibrate feedback
+echo 1 > /sys/class/power_supply/axp2202-battery/moto && sleep 0.1 && echo 0 > /sys/class/power_supply/axp2202-battery/moto
+dd if=/dev/zero of=/dev/fb0
+if pidof retroarch >/dev/null; then
+    /usr/bin/quit_game.sh
+fi
 
 # Start a background process that waits for a timeout duration before forcing shutdown
 ( sleep 5 && reboot -f -p ) &
