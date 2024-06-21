@@ -356,7 +356,7 @@ msgid ""
 "visible jitter."
 msgstr "启用提前运行。对CPU的要求增加一倍。高数值可能导致明显的不稳定。"
 
-#. TRANSLATION: shared, shared, shared, shared, shared
+#. TRANSLATION: shared, shared, shared, shared, shared, ...
 msgctxt "game_options"
 msgid "LATENCY REDUCTION"
 msgstr "减少延迟"
@@ -375,6 +375,18 @@ msgstr "使用快进模式时，可以防止按下按钮时跳过音频。"
 msgctxt "game_options"
 msgid "USE SECOND INSTANCE FOR RUN-AHEAD"
 msgstr "使用第二个实例进行提前运行"
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid ""
+"Use preemptive frames instead of run-ahead. Only runs ahead when controller "
+"state changes."
+msgstr ""
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid "USE PRE-EMPTIVE FRAMES"
+msgstr ""
 
 #. TRANSLATION: shared
 msgctxt "game_options"

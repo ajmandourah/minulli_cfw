@@ -11,6 +11,7 @@ LONG_PRESS_THRESHOLD=3
 suspend_system() {
     if pidof retroarch >/dev/null; then
         /usr/bin/poweroff.sh
+        exit 0
     fi
     pm-is-supported --suspend && pm-suspend
 }

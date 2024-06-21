@@ -361,7 +361,7 @@ msgstr ""
 "Run-ahead modua gaitu. CPU beharrak bikoizten dira. Zenbaki handiek dardara "
 "nabarmenak eragin ditzakete."
 
-#. TRANSLATION: shared, shared, shared, shared, shared
+#. TRANSLATION: shared, shared, shared, shared, shared, ...
 msgctxt "game_options"
 msgid "LATENCY REDUCTION"
 msgstr "LATENTZIA JAITSIERA"
@@ -380,6 +380,18 @@ msgstr "Audio saltoak ekidin ditzake botoiak sakatzean run-ahead erabiltzean."
 msgctxt "game_options"
 msgid "USE SECOND INSTANCE FOR RUN-AHEAD"
 msgstr "ERABILI BIGARREN INSTANTZIA RUN-AHEAD-EKIN"
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid ""
+"Use preemptive frames instead of run-ahead. Only runs ahead when controller "
+"state changes."
+msgstr ""
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid "USE PRE-EMPTIVE FRAMES"
+msgstr ""
 
 #. TRANSLATION: shared
 msgctxt "game_options"

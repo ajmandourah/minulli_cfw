@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 BOOTCONF="/boot/batocera-boot.conf"
 
 . /etc/profile.d/xdg.sh
@@ -8,8 +8,8 @@ case "$1" in
 	start)
 	    enabled="$(/usr/bin/batocera-settings-get system.es.atstartup)"
 	    if [ "$enabled" != "0" ]; then
-		if -f /userdata/system/.last; then
-		/usr/bin/start_game.sh
+		if [ -f /userdata/system/.last ] ; then
+		    /usr/bin/start_game.sh
 		fi
 
 		emulationstation-standalone &

@@ -369,7 +369,7 @@ msgstr ""
 "Habilita pre-avançament. Dobla els requisits de CPU. Nombres altres poden "
 "resultar en jitter visible."
 
-#. TRANSLATION: shared, shared, shared, shared, shared
+#. TRANSLATION: shared, shared, shared, shared, shared, ...
 msgctxt "game_options"
 msgid "LATENCY REDUCTION"
 msgstr "REDUCCIÓ DE LATÈNCIA"
@@ -388,6 +388,18 @@ msgstr "Pot prevenir salts d’àudio al prémer botons quan s’usa pre-avança
 msgctxt "game_options"
 msgid "USE SECOND INSTANCE FOR RUN-AHEAD"
 msgstr "USAR SEGONA INSTANCIA PER PRE-AVANÇAMENT"
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid ""
+"Use preemptive frames instead of run-ahead. Only runs ahead when controller "
+"state changes."
+msgstr ""
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid "USE PRE-EMPTIVE FRAMES"
+msgstr ""
 
 #. TRANSLATION: shared
 msgctxt "game_options"

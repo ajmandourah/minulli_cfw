@@ -369,7 +369,7 @@ msgstr ""
 "Maakt vooruitlopen mogelijk. Verdubbelt de CPU-vereisten. Hoge cijfers "
 "kunnen resulteren in zichtbare jitter."
 
-#. TRANSLATION: shared, shared, shared, shared, shared
+#. TRANSLATION: shared, shared, shared, shared, shared, ...
 msgctxt "game_options"
 msgid "LATENCY REDUCTION"
 msgstr "LATENCY REDUCTIE"
@@ -390,6 +390,18 @@ msgstr ""
 msgctxt "game_options"
 msgid "USE SECOND INSTANCE FOR RUN-AHEAD"
 msgstr "GEBRUIK EEN TWEEDE INSTANTIE VOOR VOORLADEN"
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid ""
+"Use preemptive frames instead of run-ahead. Only runs ahead when controller "
+"state changes."
+msgstr ""
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid "USE PRE-EMPTIVE FRAMES"
+msgstr ""
 
 #. TRANSLATION: shared
 msgctxt "game_options"

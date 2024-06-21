@@ -391,7 +391,7 @@ msgstr ""
 "تمكين التشغيل للأمام. يضاعف متطلبات وحدة المعالجة المركزية. الأعداد الكبيرة "
 "يمكن أن تؤدي إلى ارتعاش واضح."
 
-#. TRANSLATION: shared, shared, shared, shared, shared
+#. TRANSLATION: shared, shared, shared, shared, shared, ...
 msgctxt "game_options"
 msgid "LATENCY REDUCTION"
 msgstr "التقليل من التباطؤ"
@@ -410,6 +410,18 @@ msgstr "مكن منع تخطي الصوت عند الضغط على الزر عن
 msgctxt "game_options"
 msgid "USE SECOND INSTANCE FOR RUN-AHEAD"
 msgstr "استخدام الحالة الثانية للتشغيل المسبق"
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid ""
+"Use preemptive frames instead of run-ahead. Only runs ahead when controller "
+"state changes."
+msgstr ""
+
+#. TRANSLATION: shared
+msgctxt "game_options"
+msgid "USE PRE-EMPTIVE FRAMES"
+msgstr ""
 
 #. TRANSLATION: shared
 msgctxt "game_options"
