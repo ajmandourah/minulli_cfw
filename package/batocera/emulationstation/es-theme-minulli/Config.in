@@ -1,0 +1,4 @@
+config BR2_PACKAGE_ES_THEME_MINULLI
+	bool "EmulationStation theme minima (Batocera version)"
+	help
+	    https://github.com/ajmandourah/es-theme-minulli

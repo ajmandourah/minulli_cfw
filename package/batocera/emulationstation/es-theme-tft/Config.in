@@ -1,4 +1,0 @@
-config BR2_PACKAGE_ES_THEME_TFT
-	bool "EmulationStation theme tft (Batocera version)"
-	help
-	  https://github.com/ajmandourah/ES-Theme-tft
