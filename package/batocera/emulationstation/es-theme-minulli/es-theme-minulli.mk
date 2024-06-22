@@ -4,7 +4,7 @@
 #
 ################################################################################
 # Version.: Commits on Feb 13, 2024
-ES_THEME_MINULLI_VERSION = c0b10a4452c360d6b84e59406652226c22e863e6
+ES_THEME_MINULLI_VERSION = dc9635f77728f324e51df4c2c92f8eba821fa29d
 ES_THEME_MINULLI_SITE = $(call github,ajmandourah,es-theme-minulli,$(ES_THEME_MINULLI_VERSION))
 
 define ES_THEME_MINULLI_INSTALL_TARGET_CMDS
