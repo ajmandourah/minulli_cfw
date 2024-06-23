@@ -4,32 +4,40 @@
 
 
 # Minulli
-Minulli CFW is a fork of [Knulli](https://github.com/knulli-cfw/distribution) which is a fork of the open-source and completely free retro-gaming distribution batocera that can be copied to an SD card with the aim of improving many of the emulation handhelds on the market that usually ship with incomplete and often non GPL compliant software. It supports [many emulators and game engines](https://www.batocera.org/compatibility.php) out of the box. 
+Minulli CFW is a fork of [Knulli](https://github.com/knulli-cfw/distribution) which is a fork of the open-source and completely free retro-gaming distribution batocera that can be copied to an SD card with the aim of improving many of the emulation handhelds on the market that usually ship with incomplete and often non GPL compliant software. It supports [many emulators and game engines](https://www.batocera.org/compatibility.php) out of the box.
 This CFW is mainly aimed toward the Anbrenic RG28xx.
 
 ## Why Minulli
-Knulli is a great firmware but i felt its a little bit bloated. The aim is to create as minimal batocera as possible removing packages that we don't need and add QoL features from various CFW. 
+Knulli is a great firmware but i felt its a little bit bloated. The aim is to create as minimal batocera as possible removing packages that we don't need and add QoL features from various CFW.
 
 Most of us already tried the stock firmware and in that time you get used to it. especially the mappings and the features. Transitioning to a CFW will confuse most of people especially when it comes to batocera. Thats why I intend to implement stock features and implement its mapping for the ease of use. of course these are customizable if you wish to do so afterwords.
+
+## Features
+Minulli aim to appeal to the general normal non-advanced users who want to uses Batocera without extra work to do , The aim is to get a close to stock experience + additional features. this will include the following:
+
+- ExFat partition by default. This will allow windows users to directly copy all roms and bios without the need to format/expand the partition.
+- Minulli relies on Retroarch most of the time. all roms will be launched using retroarch cores. Exception for some systems like NDS where drastic is the default emulator etc.
+- included standalone emulators are drastic and ppsspp (Additional standalone emulator will be included if the community wish so)
+- Retroarch mapping that is similar to the stock firmware.
+- Quick save and shutdown and restore last game on start implemented. more information below.
+- Custom simple theme added. with the ability to download other themes if you wish so .
+- Wireless connection is supported. you need a USB c to A dongle and a usb wireless stick.
 
 ## Why RG28xx only
 The main reason it is what i have in my hands right now. Additionally the number of CFW for this great portable device is scarse so I took the challange and started tinkering around.
 
-## When will you release it
+## Why the slow release interval:
 There are several reasons for the slow release:
 - My experience in CFW is little in comparision to the legends in the field.
 - The compilation time is so long. around 2 hours minimal and 5 if I want to compile everything. you can imagine testing features will take time.
 - The RG28xx support is complex.
 
-That aside expect an alpha build soon.
-
 ## Todo
-- Shrink down the image size
-- Implement quick save before shutdown script and a load after startup
+- ~Shrink down the image size~
+- ~Implement quick save before shutdown script and a load after startup~
 - Simplify menu tree
-- remap retroarch button to match stock firmware
+- ~remap retroarch button to match stock firmware~
 - remap menu button in batocera to start menu
-- Create a test env
 
 ## Directory navigation
 
