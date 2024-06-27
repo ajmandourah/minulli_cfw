@@ -28,6 +28,12 @@ Minulli aim to appeal to the general normal non-advanced users who want to uses 
 - Custom simple theme added. with the ability to download other themes if you wish so .
 - Wireless connection is supported. you need a USB c to A dongle and a usb wireless stick.
 
+## Shutdown and suspend reworks. Save on exit. 
+There have been several efforet from the knulli team to address some issues. in addition to the added feature of Save on exit from stock . 
+- light press on the power button will **Suspend the device** unless you are in a game powered by RA core where it will **shutdown and save.**
+- Long press will always **shutdown** . you will get a nice haptic feedback when doing so . 
+- when powering on your device if a save on shutdown has been down . you will automaticlly start from where you left.
+  
 ## Why RG28xx only
 The main reason it is what i have in my hands right now. Additionally the number of CFW for this great portable device is scarse so I took the challange and started tinkering around.
 
@@ -43,6 +49,15 @@ There are several reasons for the slow release:
 - Simplify menu tree
 - ~remap retroarch button to match stock firmware~
 - remap menu button in batocera to start menu
+
+## Download and Install
+You can see all the releases in the release section https://github.com/ajmandourah/minulli_cfw/releases
+- Backup your roms and saves
+- Download the image from https://github.com/ajmandourah/minulli_cfw/releases
+- Flash the image using your favourite image burning program. I use Rufus https://rufus.ie/en/
+- Insert the SD card after flashing to your RG28xx. wait for the first boot.
+- After booting succesfully shutdown your device. Take out your SD card and insert it into your PC. Add your roms and saves accordingly.
+- EnJoY
 
 ## Directory navigation
 
