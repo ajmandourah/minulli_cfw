@@ -11,7 +11,6 @@ default:
     retroarch.audio_driver: alsathread
     retroarch.config_save_on_exit: true
     retroarch.savestate_auto_save: true
-    retroarch.savestate_auto_load: false
     retroarch.network_cmd_enable: true
     retroarch.input_menu_toggle_btn: 14
     retroarch.input_load_state_btn: 7
