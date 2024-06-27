@@ -13,6 +13,11 @@ Knulli is a great firmware but i felt its a little bit bloated. The aim is to cr
 Most of us already tried the stock firmware and in that time you get used to it. especially the mappings and the features. Transitioning to a CFW will confuse most of people especially when it comes to batocera. Thats why I intend to implement stock features and implement its mapping for the ease of use. of course these are customizable if you wish to do so afterwords.
 
 ## Features
+
+<p align="center">
+  <img width="300" src="https://github.com/ajmandourah/minulli_cfw/assets/27051374/1586b91c-c162-4f39-881b-a37677f49c42">    <img width="300" src="https://github.com/ajmandourah/minulli_cfw/assets/27051374/dc52f526-15c9-43d2-a1a2-4a24444878ea">
+</p>
+
 Minulli aim to appeal to the general normal non-advanced users who want to uses Batocera without extra work to do , The aim is to get a close to stock experience + additional features. this will include the following:
 
 - ExFat partition by default. This will allow windows users to directly copy all roms and bios without the need to format/expand the partition.
