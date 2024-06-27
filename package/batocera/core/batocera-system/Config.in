@@ -166,8 +166,8 @@ config BR2_PACKAGE_BATOCERA_SYSTEM
 	select BR2_PACKAGE_BASH				# bash shell, used as the interactive shell
 	select BR2_PACKAGE_RNG_TOOLS			if !BR2_PACKAGE_BATOCERA_TARGET_RK3128 # system entropy. Currently disabled for RK3128 due to high CPU impact
 	select BR2_PACKAGE_BATOCERA_EMULATIONSTATION	# emulationstation
-	# select BR2_PACKAGE_ES_THEME_ART_BOOK_NEXT	# emulationstation theme
-	select BR2_PACKAGE_ES_THEME_TFT   	# es theme
+	select BR2_PACKAGE_ES_THEME_ART_BOOK_NEXT	# emulationstation theme
+	select BR2_PACKAGE_ES_THEME_MINULLI   	# es theme
 	select BR2_PACKAGE_ES_THEME_EPIC_DARK   	# es theme
 	select BR2_PACKAGE_ES_THEME_MINIMA		# emulationstation theme
 	select BR2_PACKAGE_ES_BACKGROUND_MUSICS		# emulationstation musics
@@ -670,8 +670,8 @@ config BR2_PACKAGE_BATOCERA_ALL_SYSTEMS
 	select BR2_PACKAGE_BATOCERA_HANDHELD_SYSTEMS
 	select BR2_PACKAGE_BATOCERA_COMPUTER_SYSTEMS
 	select BR2_PACKAGE_BATOCERA_MSDOS_SYSTEMS
-	# select BR2_PACKAGE_BATOCERA_SCUMMVM_SYSTEMS
-	# select BR2_PACKAGE_BATOCERA_HOMEBREW_SYSTEMS
+	select BR2_PACKAGE_BATOCERA_SCUMMVM_SYSTEMS
+	select BR2_PACKAGE_BATOCERA_HOMEBREW_SYSTEMS
 	# select BR2_PACKAGE_BATOCERA_WINE_SYSTEMS
 	# select BR2_PACKAGE_BATOCERA_GAMESTREAM_SYSTEMS
 	select BR2_PACKAGE_BATOCERA_PORTS_SYSTEMS
@@ -734,8 +734,8 @@ config BR2_PACKAGE_BATOCERA_HOMEBREW_SYSTEMS
 	select BR2_PACKAGE_SOLARUS_ENGINE	if !BR2_riscv # LuajIT does not support riscv ?
 
 	# RPG engine : EasyRPG / RPG MAker
-	select BR2_PACKAGE_EASYRPG_PLAYER	# standalone
-	select BR2_PACKAGE_LIBRETRO_EASYRPG	# libretro core
+	# select BR2_PACKAGE_EASYRPG_PLAYER	# standalone
+	# select BR2_PACKAGE_LIBRETRO_EASYRPG	# libretro core
 
 	# Fantasy consoles
 	select BR2_PACKAGE_LIBRETRO_TIC80	# ALL
