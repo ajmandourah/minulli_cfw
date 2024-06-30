@@ -9,13 +9,10 @@ case "$1" in
 	    enabled="$(/usr/bin/batocera-settings-get system.es.atstartup)"
 	    if [ "$enabled" != "0" ]; then
 		if [ -f /userdata/system/.last ] ; then
-		    /usr/bin/start_game.sh &
-		else
-		    emulationstation-standalone &
+		    /usr/bin/start_game.sh
 		fi
 
-		pkill progressbar
-
+		emulationstation-standalone &
 	    fi
 	    ;;
 
