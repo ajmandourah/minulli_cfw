@@ -28,7 +28,7 @@ case "$1" in
         /sbin/udevd -d || { echo "FAIL"; exit 1; }
         udevadm trigger --type=subsystems --action=add
         udevadm trigger --type=devices --action=add
-#        udevadm settle --timeout=30 || echo "udevadm settle failed"
+        udevadm settle --timeout=30 || echo "udevadm settle failed"
         echo "done"
         ;;
     stop)

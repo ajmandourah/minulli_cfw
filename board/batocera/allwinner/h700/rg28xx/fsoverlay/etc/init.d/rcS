@@ -33,6 +33,11 @@ for i in /etc/init.d/S??* ;do
 	*)
 	    echo "$i" > /tmp/status.txt
 	    # No sh extension, so fork subprocess.
+	    if [ $i == *"audio" ]
+	    then
+		    $i start &
+	    fi
+	    
 	    $i start
 	    ;;
     esac
