@@ -153,3 +153,9 @@ else
     echo "OS_DATE=$SUFFIXDATE" >> "$OS_RELEASE_PATH"
 fi
 
+#minulli modification for faster boot
+mv "${TARGET_DIR}/etc/init.d/S05udev" "${TARGET_DIR}/etc/init.d/S00udev.sh"|| exit 1
+mv "${TARGET_DIR}/etc/init.d/S11share" "${TARGET_DIR}/etc/init.d/S02share"|| exit 1
+mv "${TARGET_DIR}/etc/init.d/S31emulationstation" "${TARGET_DIR}/etc/init.d/S07emulationstation"|| exit 1
+mv "${TARGET_DIR}/etc/init.d/S12populateshare" "${TARGET_DIR}/etc/init.d/S03populateshare"|| exit 1
+mv "${TARGET_DIR}/etc/init.d/S27audioconfig" "${TARGET_DIR}/etc/init.d/S07audioconfig"|| exit 1
