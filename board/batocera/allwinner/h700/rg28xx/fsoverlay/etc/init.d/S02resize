@@ -6,6 +6,7 @@ log="/tmp/resize.log"
 
 test "$1" != "start" && exit 0
 
+########################################
 # First boot afte flashing
 #
 function format_exfat()
@@ -15,10 +16,10 @@ if [[ -f /boot/boot/first_boot ]]; then
 	# remove the trigger
 	rm -f /boot/boot/first_boot
 
-	mkfs.exfat -n SHARE /dev/mmcblk0p4
+	mkfs.exfat -n SHARE /dev/mmcblk0p5
 	gdisk $1 <<EOF
 t
-4
+5
 0700
 w
 Y
@@ -87,8 +88,8 @@ then
 
     # --- BEGIN RESIZE ---
     # /userdata partition
-    PART=$(batocera-part "share_internal")
-    PARTNUM=$(batocera-part "share_internal_num")
+    PART=/dev/mmcblk0p5
+    PARTNUM=5
     echo "Partition name: $PART & number: $PARTNUM" >> $log
     # boot disk
     DISK=$(batocera-part prefix "${PART}")
@@ -152,7 +153,7 @@ else
     then
 	# Preparing text arrays
 	arr=("Formatting /userdata.........." "Pending")
-	PART=$(batocera-part "share_internal")
+	PART=/dev/mmcblk0p5
 
 	# remove the trigger
 	mount -o remount,rw /boot && sed -i -e s+'^[ ]*format-internal'+'#format-internal'+ "${BOOTCONF}" && mount -o remount,ro /boot
@@ -171,7 +172,7 @@ else
 		textoutput 1 10 "mkfs.exfat -n SHARE ${PART}" # what to do in case of error ? nothing.
 		gdisk ${DISK}<<EOF
 t
-4
+5
 0700
 w
 Y
@@ -190,7 +191,7 @@ Y
 w
 Y
 EOF
-	parted -s -m ${DISK} set 4 msftdata on
+	parted -s -m ${DISK} set ${PARTNUM} msftdata on
 	partprobe ${DISK}
     fi
 fi

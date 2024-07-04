@@ -17,6 +17,7 @@ fbset -g 480 640 480 1280 32
 #udev
 /etc/init.d/S00udev.sh start
 /etc/init.d/S01dbus start
+/etc/init.d/S21haveged start
 
 /etc/init.d/S01date start &
 /etc/init.d/S01syslogd start &
