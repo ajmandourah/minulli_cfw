@@ -3,9 +3,7 @@
 # We need the graphics module in order to use SDL since we are
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
-insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko
-#insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/bcm_btlpm.ko
-insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko
+
 
 # Rotate screen for the rg28xx
 fbset -g 480 640 480 1280 32
@@ -23,19 +21,24 @@ fbset -g 480 640 480 1280 32
 /etc/init.d/S01syslogd start &
 /etc/init.d/S02overclock start &
 
+
 /etc/init.d/S02resize start
 /etc/init.d/S02share start
 /etc/init.d/S02systctl start
 
 /etc/init.d/S03populateshare start
 /etc/init.d/S03triggerhappy start
-/etc/init.d/S03urandom start &
+# /etc/init.d/S03urandom start &
 /etc/init.d/S04populate start &
 /etc/init.d/S05avahi-setup.sh start &
 
 /etc/init.d/S06audio start
 /etc/init.d/S07audioconfig start &
+/etc/init.d/S03pico8
 /etc/init.d/S07emulationstation start &
+
+insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko
+insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko
 
 /etc/init.d/S06modprobe start &
 

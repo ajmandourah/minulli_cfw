@@ -1,0 +1,25 @@
+#!/bin/sh
+
+
+#check if already created
+if [ -f /userdata/system/configs/emulationstation/es_systems_pico8.cfg ]
+then
+	exit 0
+fi
+
+if [ -f /userdata/bios/pico-8/pico8 ]
+then
+	chmod +x /userdata/bios/pico-8/*
+	cp /usr/share/extra/pico8.cfg /userdata/system/configs/emulationstation/es_systems_pico8.cfg
+
+	if ! -d /userdata/roms/pico8
+	then
+		mkdir /userdata/roms/pico8
+		touch /userdata/roms/pico8/Splore.png
+	else
+		if ! -f /userdata/roms/pico8/Splore.png
+		then
+			touch /userdata/roms/pico8/Splore.png
+		fi
+	fi
+fi
