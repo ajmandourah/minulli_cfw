@@ -1,0 +1,77 @@
+#!/bin/sh
+
+FILEMODES="/sys/class/graphics/fb0/modes"
+# Path to the HDMI state file
+hdmi_state_file="/sys/devices/platform/soc/6000000.hdmi/extcon/hdmi/state"
+display="/sys/kernel/debug/dispdbg"
+
+f_usage() {
+    echo "$0 currentMode" >&2
+    echo "$0 currentResolution" >&2
+}
+
+if [ $# -eq 0 ]; then
+    f_usage
+    exit 1
+fi
+
+check_hdmi() {
+    state=$(cat "$hdmi_state_file")
+    if [ "$state" = "HDMI=1" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+setOutput() {
+    if check_hdmi; then
+        # 720p external
+        cat /dev/zero > /dev/fb0
+        echo disp0 > $display/name
+        echo switch1 > $display/command
+        echo 4 5 0 0 0x4 0x201 0 1 0 8 > $display/param
+        echo 1 > $display/start
+        fbset -g 1280 720 1280 1440 32 -t 13426 192 56 22 1 136 3
+    else
+        # 480p internal
+        cat /dev/zero > /dev/fb0
+        echo disp0 > $display/name
+        echo switch > $display/command
+        echo 1 0 > $display/param
+        echo 1 > $display/start
+        fbset -g 640 480 640 960 32
+    fi
+}
+
+ACTION=$1
+shift
+
+case "${ACTION}" in
+    "listModes"|"listOutputs")
+        echo internal lcd 640x480
+        echo hdmi out 1280x720
+        ;;
+    "setMode"|"setOutput")
+        setOutput
+        ;;
+    "minTomaxResolution" | "minTomaxResolution-secure")
+        ;;
+    "currentMode"|"currentResolution"|"currentOutput")
+        if check_hdmi; then
+            echo 1280x720
+        else
+            echo 640x480
+        fi
+        ;;
+    "supportSystemRotation")
+        exit 1
+        ;;
+    *)
+        f_usage
+        >&2 echo "error: invalid command ${ACTION}"
+        exit 1
+        ;;
+esac
+
+exit 0

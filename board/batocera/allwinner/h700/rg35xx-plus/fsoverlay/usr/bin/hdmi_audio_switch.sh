@@ -19,20 +19,6 @@ if check_ingame; then
     exit 1
 fi
 
-# Check if debugfs is mounted
-if grep -qs 'debugfs' /proc/mounts; then
-    echo "debugfs is mounted." >> /var/log/hdmi-event.log
-else
-    echo "debugfs is not mounted. Attempting to mount..." >> /var/log/hdmi-event.log
-    mount -t debugfs debugfs /sys/kernel/debug
-    if [ $? -eq 0 ]; then
-        echo "debugfs successfully mounted." >> /var/log/hdmi-event.log
-    else
-        echo "Failed to mount debugfs." >> /var/log/hdmi-event.log
-        exit 1
-    fi
-fi
-
 kill_es() {
 	killall emulationstation 2>/dev/null
 	killall touchegg 2>/dev/null
