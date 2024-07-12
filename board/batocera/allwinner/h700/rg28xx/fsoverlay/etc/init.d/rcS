@@ -1,5 +1,6 @@
 #!/bin/sh
 
+haveged -w 1024 -F --once
 # We need the graphics module in order to use SDL since we are
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
@@ -13,24 +14,27 @@ fbset -g 480 640 480 1280 32
 
 
 #udev
+/etc/init.d/S27debugmount start
 /etc/init.d/S00udev.sh start
 /etc/init.d/S01dbus start
 /etc/init.d/S21haveged start
 
-/etc/init.d/S01date start &
-/etc/init.d/S01syslogd start &
-/etc/init.d/S02overclock start &
-
-
 /etc/init.d/S02resize start
 /etc/init.d/S02share start
 /etc/init.d/S02systctl start
+
+/etc/init.d/S01date start &
+/etc/init.d/S02overclock start &
+
+
 
 /etc/init.d/S03populateshare start
 /etc/init.d/S03triggerhappy start
 # /etc/init.d/S03urandom start &
 /etc/init.d/S04populate start &
 /etc/init.d/S05avahi-setup.sh start &
+
+/etc/init.d/S01syslogd start &
 
 /etc/init.d/S06audio start
 /etc/init.d/S07audioconfig start &

@@ -6,6 +6,14 @@
 # Try to stop all processes cleanly
 #/etc/init.d/rcK
 sync
+
+display="/sys/kernel/debug/dispdbg"
+
+echo disp0 > $display/name
+echo blank > $display/command
+echo 1 > $display/param
+echo 1 > $display/start
+
 #vibrate feedback
 echo 1 > /sys/class/power_supply/axp2202-battery/moto && sleep 0.1 && echo 0 > /sys/class/power_supply/axp2202-battery/moto
 

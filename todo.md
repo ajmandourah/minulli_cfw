@@ -6,4 +6,8 @@
 - Startup from where you left
 - custom theme
 - ~Fix memory leak in Retroarch.~ Thanks @JohnnyonFlame
+- HDMI fix
+- HDMI midgame fix
+- blank the screen with shutdown/reboot/save
+
 

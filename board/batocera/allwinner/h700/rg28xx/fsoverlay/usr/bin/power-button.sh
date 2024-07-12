@@ -6,7 +6,7 @@ POWER_BUTTON_STATE="/var/run/power-button-state.flag"
 LOCK_FILE="/var/run/power-button-script.lock"
 
 # Threshold for long press to shutdown (some boards cut power when power button is held too long)
-LONG_PRESS_THRESHOLD=3
+LONG_PRESS_THRESHOLD=2
 
 suspend_system() {
     if pidof retroarch >/dev/null; then
