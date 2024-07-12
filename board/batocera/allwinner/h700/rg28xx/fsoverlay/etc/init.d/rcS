@@ -4,40 +4,103 @@
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
 
+
 # Rotate screen for the rg28xx
 fbset -g 480 640 480 1280 32
 
 # Call the charger process
 /usr/bin/charger
 
+
+#udev
+/etc/init.d/S00udev.sh start
+/etc/init.d/S01dbus start
+/etc/init.d/S21haveged start
+
+/etc/init.d/S01date start &
+/etc/init.d/S01syslogd start &
+/etc/init.d/S02overclock start &
+
+
+/etc/init.d/S02resize start
+/etc/init.d/S02share start
+/etc/init.d/S02systctl start
+
+/etc/init.d/S03populateshare start
+/etc/init.d/S03triggerhappy start
+# /etc/init.d/S03urandom start &
+/etc/init.d/S04populate start &
+/etc/init.d/S05avahi-setup.sh start &
+
+/etc/init.d/S06audio start
+/etc/init.d/S07audioconfig start &
+/etc/init.d/S03pico8
+/etc/init.d/S07emulationstation start &
+
+insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko
+insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko
+
+/etc/init.d/S06modprobe start &
+
+/etc/init.d/S07network start
+/etc/init.d/S08connman start &
+/etc/init.d/S13irqbalance start &
+/etc/init.d/S15virtualevents start &
+/etc/init.d/S18governor start &
+/etc/init.d/S25lircd start &
+/etc/init.d/S26system start &
+/etc/init.d/S27brightness start &
+/etc/init.d/S30rpcbind start &
+/etc/init.d/S31sixad start &
+/etc/init.d/S32bluetooth start &
+/etc/init.d/S33disablealtfn start &
+/etc/init.d/S33rngd start &
+/etc/init.d/S35iptables start &
+/etc/init.d/S35securepasswd start &
+/etc/init.d/S49ntp start &
+/etc/init.d/S50adb start &
+/etc/init.d/S50avahi-daemon start &
+/etc/init.d/S50dropbear start &
+/etc/init.d/S60nfs start &
+/etc/init.d/S61cec start &
+/etc/init.d/S65values4boot start &
+/etc/init.d/S91smb start &
+/etc/init.d/S93wsdd start &
+/etc/init.d/97joycond start &
+/etc/init.d/S99userservices start
 # Start the progress bar
-/usr/bin/progressbar &
+#/usr/bin/progressbar &
 
 # Start all init scripts in /etc/init.d
 # executing them in numerical order.
 #
-for i in /etc/init.d/S??* ;do
-
-     # Ignore dangling symlinks (if any).
-     [ ! -f "$i" ] && continue
-
-     case "$i" in
-	*.sh)
-	    # Source shell script for speed.
-	    (
-		trap - INT QUIT TSTP
-		set start
-		. $i
-	    )
-	    ;;
-	*)
-	    echo "$i" > /tmp/status.txt
-	    # No sh extension, so fork subprocess.
-	    $i start
-	    ;;
-    esac
-
-    echo QUIT > /tmp/status.txt
-
-    echo $(date +"%F %T,%3N")": ${i} - started" >> /var/run/boot.log
-done
+# for i in /etc/init.d/S??* ;do
+#
+#      # Ignore dangling symlinks (if any).
+#      [ ! -f "$i" ] && continue
+#
+#      case "$i" in
+# 	*.sh)
+# 	    # Source shell script for speed.
+# 	    (
+# 		trap - INT QUIT TSTP
+# 		set start
+# 		. $i
+# 	    )
+# 	    ;;
+# 	*)
+# 	    echo "$i" > /tmp/status.txt
+# 	    # No sh extension, so fork subprocess.
+#             if [ $i == *"audio" ]
+#             then
+#                 $i start &
+#             fi
+#
+# 	    $i start
+# 	    ;;
+#     esac
+#
+#     echo QUIT > /tmp/status.txt
+#
+#     echo $(date +"%F %T,%3N")": ${i} - started" >> /var/run/boot.log
+# done

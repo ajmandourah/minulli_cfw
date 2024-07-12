@@ -32,7 +32,7 @@ if [ "$state" == "HDMI=1" ]; then
 	
 	echo disp0 > $display/name
 	echo switch1 > $display/command
-	echo 4 10 0 0 0x4 0x101 0 0 0 8 > $display/param
+	echo 4 5 0 0 0x4 0x201 0 1 0 8 > $display/param
 	echo 1 > $display/start
 
 	if [ "$es_state" != 0 ]; then

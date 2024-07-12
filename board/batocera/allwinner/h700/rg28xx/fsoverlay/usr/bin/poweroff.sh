@@ -8,7 +8,7 @@
 sync
 #vibrate feedback
 echo 1 > /sys/class/power_supply/axp2202-battery/moto && sleep 0.1 && echo 0 > /sys/class/power_supply/axp2202-battery/moto
-dd if=/dev/zero of=/dev/fb0
+
 if pidof retroarch >/dev/null; then
     /usr/bin/quit_game.sh
 fi

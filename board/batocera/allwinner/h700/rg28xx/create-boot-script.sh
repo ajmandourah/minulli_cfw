@@ -18,7 +18,7 @@ mkdir -p "${BATOCERA_BINARIES_DIR}/boot/boot"     || exit 1
 
 cp "${BOARD_DIR}/uImage"		"${BATOCERA_BINARIES_DIR}/boot/uImage"			|| exit 1
 cp "${BOARD_DIR}/uInitrd"		"${BATOCERA_BINARIES_DIR}/boot/uInitrd"			|| exit 1
-cp "${BINARIES_DIR}/rootfs.squashfs"	"${BATOCERA_BINARIES_DIR}/boot/boot/batocera.update"	|| exit 1
+#cp "${BINARIES_DIR}/rootfs.squashfs"	"${BATOCERA_BINARIES_DIR}/boot/boot/batocera.update"	|| exit 1
 cp "${BOARD_DIR}/batocera-boot.conf" 	"${BATOCERA_BINARIES_DIR}/boot/batocera-boot.conf"	|| exit 1
 cp "${BOARD_DIR}/bootlogo.bmp"		"${BATOCERA_BINARIES_DIR}/boot/bootlogo.bmp"		|| exit 1
 

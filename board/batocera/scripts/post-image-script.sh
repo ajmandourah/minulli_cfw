@@ -55,7 +55,7 @@ do
     BATOCERA_POST_IMAGE_SCRIPT="${BR2_EXTERNAL_BATOCERA_PATH}/board/batocera/${BATOCERA_PATHSUBTARGET}/create-boot-script.sh"
     bash "${BATOCERA_POST_IMAGE_SCRIPT}" "${HOST_DIR}" "${BR2_EXTERNAL_BATOCERA_PATH}/board/batocera/${BATOCERA_PATHSUBTARGET}" "${BUILD_DIR}" "${BINARIES_DIR}" "${TARGET_DIR}" "${BATOCERA_BINARIES_DIR}" || exit 1
     # add some common files
-    cp -pr "${BINARIES_DIR}/tools"              "${BATOCERA_BINARIES_DIR}/boot/" || exit 1
+    #cp -pr "${BINARIES_DIR}/tools"              "${BATOCERA_BINARIES_DIR}/boot/" || exit 1
     cp     "${BINARIES_DIR}/batocera-boot.conf" "${BATOCERA_BINARIES_DIR}/boot/" || exit 1
     echo   "${BATOCERA_SUBTARGET}" > "${BATOCERA_BINARIES_DIR}/boot/boot/batocera.board" || exit 1
     # echo -e "\n#formating at initial start:\nformat-internal=exfat" >> ${BATOCERA_BINARIES_DIR}/boot/batocera-boot.conf
@@ -67,7 +67,10 @@ do
     (cd "${BATOCERA_BINARIES_DIR}/boot" && tar -I "xz -T0" -cf "${BATOCERA_BINARIES_DIR}/images/${BATOCERA_SUBTARGET}/minulli-${BATOCERA_LOWER_TARGET}-${BATOCERA_SUBTARGET}-${SUFFIXVERSION}-${SUFFIXDATE}_boot.tar.xz" *) || exit 1
 
     # rename the squashfs : the .update is the version that will be renamed at boot to replace the old version
-    mv "${BATOCERA_BINARIES_DIR}/boot/boot/batocera.update" "${BATOCERA_BINARIES_DIR}/boot/boot/batocera" || exit 1
+    #mv "${BATOCERA_BINARIES_DIR}/boot/boot/batocera.update" "${BATOCERA_BINARIES_DIR}/boot/boot/batocera" || exit 1
+
+    #Remove batocera overlay for size. comment if you use squashfs
+    #rm -f ${BATOCERA_BINARIES_DIR}/boot/boot/batocera
 
     # create *.img
     if [ "${BATOCERA_LOWER_TARGET}" = "${BATOCERA_SUBTARGET}" ]; then

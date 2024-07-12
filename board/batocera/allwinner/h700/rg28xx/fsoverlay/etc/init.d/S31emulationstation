@@ -8,6 +8,8 @@ case "$1" in
 	start)
 	    enabled="$(/usr/bin/batocera-settings-get system.es.atstartup)"
 	    if [ "$enabled" != "0" ]; then
+		#kill all mpv processes if existed
+		killall -q mpv
 		if [ -f /userdata/system/.last ] ; then
 		    /usr/bin/start_game.sh
 		fi

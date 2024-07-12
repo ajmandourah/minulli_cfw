@@ -10,15 +10,19 @@ test "$1" != "start" && exit 0
 #
 function format_exfat()
 {
+
+PART=$(batocera-part "share_internal")
+PARTNUM=$(batocera-part "share_internal_num")
+
 mount -o remount,rw /boot
 if [[ -f /boot/boot/first_boot ]]; then
 	# remove the trigger
 	rm -f /boot/boot/first_boot
 
-	mkfs.exfat -n SHARE /dev/mmcblk0p4
+	mkfs.exfat -n SHARE ${PART}
 	gdisk $1 <<EOF
 t
-4
+${PARTNUM}
 0700
 w
 Y
@@ -153,6 +157,7 @@ else
 	# Preparing text arrays
 	arr=("Formatting /userdata.........." "Pending")
 	PART=$(batocera-part "share_internal")
+    	PARTNUM=$(batocera-part "share_internal_num")
 
 	# remove the trigger
 	mount -o remount,rw /boot && sed -i -e s+'^[ ]*format-internal'+'#format-internal'+ "${BOOTCONF}" && mount -o remount,ro /boot
@@ -171,7 +176,7 @@ else
 		textoutput 1 10 "mkfs.exfat -n SHARE ${PART}" # what to do in case of error ? nothing.
 		gdisk ${DISK}<<EOF
 t
-4
+${PARTNUM}
 0700
 w
 Y
@@ -190,7 +195,7 @@ Y
 w
 Y
 EOF
-	parted -s -m ${DISK} set 4 msftdata on
+	parted -s -m ${DISK} set ${PARTNUM} msftdata on
 	partprobe ${DISK}
     fi
 fi
