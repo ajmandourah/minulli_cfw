@@ -38,11 +38,7 @@ setOutput() {
         echo switch > $display/command
         echo 1 0 > $display/param
         echo 1 > $display/start
-<<<<<<< HEAD
-        fbset -g 640 480 640 960 32
-=======
         fbset -g 480 640 480 1280 32
->>>>>>> 858cd257a8 (20240712)
     fi
 }
 
