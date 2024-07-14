@@ -5,7 +5,6 @@ haveged -w 1024 -F --once
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
 
-
 # Call the charger process
 /usr/bin/charger
 
@@ -31,7 +30,7 @@ insmod /lib/modules/mali_kbase.ko
 /etc/init.d/S04populate start &
 /etc/init.d/S05avahi-setup.sh start &
 
-/etc/init.d/S01syslogd start &
+/etc/init.d/S01syslogd restart &
 
 /etc/init.d/S06audio start
 /etc/init.d/S07audioconfig start &

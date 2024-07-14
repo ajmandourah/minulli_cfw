@@ -34,7 +34,7 @@ fbset -g 480 640 480 1280 32
 /etc/init.d/S04populate start &
 /etc/init.d/S05avahi-setup.sh start &
 
-/etc/init.d/S01syslogd start &
+/etc/init.d/S01syslogd restart &
 
 /etc/init.d/S06audio start
 /etc/init.d/S07audioconfig start &

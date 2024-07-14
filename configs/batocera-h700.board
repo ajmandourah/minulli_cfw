@@ -8,8 +8,8 @@ BR2_PACKAGE_BATOCERA_TARGET_H700=y
 BR2_TARGET_OPTIMIZATION="-O2 -pipe -fsigned-char -mcpu=cortex-a53 -mtune=cortex-a53"
 #BR2_TARGET_GENERIC_GETTY_PORT="tty1"
 BR2_TARGET_GENERIC_GETTY_BAUDRATE_115200=y
-BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg28xx/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/patches"
-BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg28xx/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/fsoverlay"
+BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/patches "
+BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/fsoverlay "
 
 BR2_PACKAGE_BUSYBOX=y
 BR2_PACKAGE_HAVEGED=y

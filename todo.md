@@ -10,4 +10,13 @@
 - HDMI midgame fix
 - blank the screen with shutdown/reboot/save
 
-
+rg35xxH:
+- ~Sound~
+- ~emulation~
+- ~adb~
+- ~HDMI~
+- cores
+- ~boot~
+- ~save at shutdown~
+- mappings RA
+- ~wifi~

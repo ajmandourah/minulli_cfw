@@ -164,3 +164,7 @@ then
     mv "${TARGET_DIR}/etc/init.d/S50triggerhappy" "${TARGET_DIR}/etc/init.d/S03triggerhappy"|| exit 1
 fi
 
+if !test -f ${TARGET_DIR}/init
+then
+    ln -s sbin/init ${TARGET_DIR}/init
+fi
