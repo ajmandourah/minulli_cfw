@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan0", RUN+="/sbin/ip link set wlan0 down"

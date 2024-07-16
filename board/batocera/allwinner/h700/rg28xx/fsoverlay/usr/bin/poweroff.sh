@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# Save ALSA mixer state
-# alsactl store 0 -f /userdata/system/.asound.state
-
-# Try to stop all processes cleanly
-#/etc/init.d/rcK
 sync
 
 display="/sys/kernel/debug/dispdbg"

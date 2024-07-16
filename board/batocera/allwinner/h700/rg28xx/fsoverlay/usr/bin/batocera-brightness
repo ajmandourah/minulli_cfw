@@ -1,9 +1,8 @@
 #!/bin/sh
 
-CYCLESTEP=20 # % additional brightbess at each step
-
-B="${D}"/brightness
 XMAX=255
+
+CYCLESTEP=20 # % additional brightbess at each step
 
 setValue() {
     NEWVAL=$1

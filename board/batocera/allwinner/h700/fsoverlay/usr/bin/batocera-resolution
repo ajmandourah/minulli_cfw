@@ -27,7 +27,6 @@ check_hdmi() {
 setOutput() {
     if check_hdmi; then
         # 720p external
-        cat /dev/zero > /dev/fb0
         echo disp0 > $display/name
         echo switch1 > $display/command
         echo 4 5 0 0 0x4 0x201 0 1 0 8 > $display/param
@@ -35,7 +34,6 @@ setOutput() {
         fbset -g 1280 720 1280 1440 32 -t 13426 192 56 22 1 136 3
     else
         # 480p internal
-        cat /dev/zero > /dev/fb0
         echo disp0 > $display/name
         echo switch > $display/command
         echo 1 0 > $display/param

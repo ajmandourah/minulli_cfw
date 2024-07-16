@@ -1,0 +1,53 @@
+#!/bin/bash
+# Suspend or shutdown
+
+# Paths
+POWER_BUTTON_STATE="/var/run/power-button-state.flag"
+LOCK_FILE="/var/run/power-button-script.lock"
+RUMBLE_FILE="/sys/class/power_supply/axp2202-battery/moto"
+
+# Threshold for long press to shutdown (some boards cut power when power button is held too long)
+LONG_PRESS_THRESHOLD=2000  # in milliseconds
+
+suspend_system() {
+    pm-is-supported --suspend && pm-suspend
+}
+
+shutdown_system() {
+    echo disable > /sys/kernel/debug/dispdbg/command
+    echo lcd0 > /sys/kernel/debug/dispdbg/name
+    echo 1 > /sys/kernel/debug/dispdbg/start
+    amixer set Master mute
+    batocera-es-swissknife --emukill
+    /usr/bin/poweroff.sh
+}
+
+exec 200>"${LOCK_FILE}"
+flock -n 200 || exit 1
+
+trap 'flock -u 200; rm -f "${LOCK_FILE}"' EXIT
+
+# Power button press
+echo "1" > "$POWER_BUTTON_STATE"
+
+START_TIME=$(date +%s%3N)
+while true; do
+    sleep 0.1
+    
+    if [ "$(cat ${POWER_BUTTON_STATE})" = "0" ]; then
+        # Power button released
+        suspend_system
+        break
+    fi
+
+    CURRENT_TIME=$(date +%s%3N)
+    DURATION=$((CURRENT_TIME - START_TIME))
+    
+    if [ "${DURATION}" -ge "${LONG_PRESS_THRESHOLD}" ]; then
+        echo 1 > "$RUMBLE_FILE" && sleep 0.1 && echo 0 > "$RUMBLE_FILE"
+        shutdown_system
+        break
+    fi
+done
+
+exit 0

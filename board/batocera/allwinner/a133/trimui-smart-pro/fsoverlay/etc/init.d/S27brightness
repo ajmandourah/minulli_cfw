@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Check if batocera-brightness command exists
+if ! command -v batocera-brightness >/dev/null; then
+    exit 0
+fi
+
+case $1 in
+    start)
+        # Retrieve the current brightness setting
+        BRI=$(batocera-settings-get display.brightness)
+        
+        # Check if the command was successful and handle accordingly
+        if [ $? -eq 0 ]; then
+            # If brightness is less than 5, set it to 5
+            if [ "$BRI" -lt 5 ]; then
+                BRI=5
+            fi
+        else
+            # If no value is found, set brightness to 50%
+            BRI=50
+        fi
+        
+        batocera-brightness "$BRI"
+        ;;       
+    stop)
+        # Get brightness values
+        CURRENT_BRI=$(batocera-brightness)
+        SAVED_BRI=$(batocera-settings-get display.brightness)
+        
+        # Update saved brightness setting if it's different from the current brightness
+        if [ "$SAVED_BRI" != "$CURRENT_BRI" ]; then
+            batocera-settings-set display.brightness "$CURRENT_BRI"
+		fi	
+        ;;
+esac
+
+exit 0
