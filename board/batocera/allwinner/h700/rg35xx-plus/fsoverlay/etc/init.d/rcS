@@ -5,16 +5,19 @@ haveged -w 1024 -F --once
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
 
+fbset -g 640 480 640 960 32
+
 # Call the charger process
 /usr/bin/charger
 
 
 #udev
 /etc/init.d/S27debugmount start
+
 #reinit the display
-display="/sys/kernel/debug/dispdbg"
-echo suspend > $display/command; echo disp0 > $display/name; echo 1 > $display/start
-echo resume > $display/command; echo disp0 > $display/name; echo 1 > $display/start
+# display="/sys/kernel/debug/dispdbg"
+# echo suspend > $display/command; echo disp0 > $display/name; echo 1 > $display/start
+# echo resume > $display/command; echo disp0 > $display/name; echo 1 > $display/start
 
 /etc/init.d/S00udev.sh start
 /etc/init.d/S01dbus start
