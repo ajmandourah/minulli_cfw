@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GL4ES_VERSION = bfcdd3a452e0d04d41afd2693a879c073b5ad8c9
+GL4ES_VERSION = 52e0c496f513cac4bfb23b8897e8028396fcd61f
 GL4ES_SITE =  $(call github,ptitSeb,gl4es,$(GL4ES_VERSION))
 GL4ES_DEPENDENCIES =
 GL4ES_INSTALL_STAGING = YES
