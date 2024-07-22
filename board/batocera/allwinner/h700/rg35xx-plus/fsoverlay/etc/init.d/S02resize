@@ -18,7 +18,7 @@ mount -o remount,rw /boot
 if [[ -f /boot/boot/first_boot ]]; then
 	# remove the trigger
 	rm -f /boot/boot/first_boot
-
+	/usr/bin/progressbar "finalizing the partition for windows recognition"
 	mkfs.exfat -n SHARE ${PART}
 	gdisk $1 <<EOF
 t
@@ -91,6 +91,8 @@ then
 
     # --- BEGIN RESIZE ---
     # /userdata partition
+    /usr/bin/progressbar "resizing and formating the share parition"
+
     PART=$(batocera-part "share_internal")
     PARTNUM=$(batocera-part "share_internal_num")
     echo "Partition name: $PART & number: $PARTNUM" >> $log

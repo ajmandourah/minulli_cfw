@@ -39,7 +39,7 @@ BR2_PACKAGE_BATOCERA_KODI20=n
 #BR2_PACKAGE_MTD=y
 
 ######
-#BR2_GLOBAL_PATCH_DIR="board/batocera/allwinner/h700/rg35xx-plus/patches"
+#BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/patches $(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/rg35xx-plus/patches "
 # Linux headers same as kernel, a 4.9 series
 BR2_LINUX_KERNEL=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y

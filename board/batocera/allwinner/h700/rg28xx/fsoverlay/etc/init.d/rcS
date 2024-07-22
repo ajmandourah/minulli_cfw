@@ -1,5 +1,7 @@
 #!/bin/sh
 
+/usr/bin/progressbar
+
 haveged -w 1024 -F --once
 # We need the graphics module in order to use SDL since we are
 # using the sdl-compat/SDL2 for rendering
@@ -14,12 +16,14 @@ fbset -g 480 640 480 1280 32
 
 
 #udev
+/usr/bin/progressbar "Starting required services"
 /etc/init.d/S27debugmount start
 /etc/init.d/S00udev.sh start
 /etc/init.d/S01dbus start
 /etc/init.d/S21haveged start
 
 /etc/init.d/S02resize start
+/usr/bin/progressbar "mounting the share partition"
 /etc/init.d/S02share start
 /etc/init.d/S02systctl start
 
@@ -27,18 +31,22 @@ fbset -g 480 640 480 1280 32
 /etc/init.d/S02overclock start &
 
 
-
+/usr/bin/progressbar "populate share data"
 /etc/init.d/S03populateshare start
 /etc/init.d/S03triggerhappy start
 # /etc/init.d/S03urandom start &
 /etc/init.d/S04populate start &
 /etc/init.d/S05avahi-setup.sh start &
 
+/usr/bin/progressbar "start the logging service"
 /etc/init.d/S01syslogd restart &
 
+/usr/bin/progressbar "configure audio"
 /etc/init.d/S06audio start
 /etc/init.d/S07audioconfig start &
 /etc/init.d/S03pico8
+
+/usr/bin/progressbar "all done. starting now"
 /etc/init.d/S07emulationstation start &
 
 insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko
