@@ -6,7 +6,8 @@ haveged -w 1024 -F --once
 # We need the graphics module in order to use SDL since we are
 # using the sdl-compat/SDL2 for rendering
 insmod /lib/modules/mali_kbase.ko
-
+insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko &
+insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko &
 fbset -g 640 480 640 960 32
 
 # Call the charger process
@@ -53,8 +54,7 @@ fbset -g 640 480 640 960 32
 /usr/bin/progressbar "all done. Starting now"
 /etc/init.d/S07emulationstation start &
 
-insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko
-insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko
+
 
 /etc/init.d/S06modprobe start &
 
