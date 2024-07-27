@@ -3,7 +3,7 @@
 # Call the charger process
 /usr/bin/charger
 
-#reinit the display
+#reinit the display / mitigates sdl dmesg issue.
 /etc/init.d/S27debugmount start
 display="/sys/kernel/debug/dispdbg"
 echo suspend > $display/command; echo disp0 > $display/name; echo 1 > $display/start
