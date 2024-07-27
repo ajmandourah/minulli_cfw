@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Call the charger process
+/usr/bin/charger
+
+#reinit the display
+/etc/init.d/S27debugmount start
+display="/sys/kernel/debug/dispdbg"
+echo suspend > $display/command; echo disp0 > $display/name; echo 1 > $display/start
+echo resume > $display/command; echo disp0 > $display/name; echo 1 > $display/start
+
 /usr/bin/progressbar
 
 haveged -w 1024 -F --once
@@ -10,17 +19,7 @@ insmod /lib/modules/4.9.170/kernel/drivers/net/wireless/rtl8821cs/8821cs.ko &
 insmod /lib/modules/4.9.170/kernel/drivers/bluetooth/rtl_btlpm.ko &
 fbset -g 640 480 640 960 32
 
-# Call the charger process
-/usr/bin/charger
 
-
-#udev
-/etc/init.d/S27debugmount start
-
-#reinit the display
-# display="/sys/kernel/debug/dispdbg"
-# echo suspend > $display/command; echo disp0 > $display/name; echo 1 > $display/start
-# echo resume > $display/command; echo disp0 > $display/name; echo 1 > $display/start
 /usr/bin/progressbar "starting required services"
 /etc/init.d/S00udev.sh start
 /etc/init.d/S01dbus start
