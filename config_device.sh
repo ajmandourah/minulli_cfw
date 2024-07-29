@@ -2,7 +2,7 @@
 
 # Check if an argument is provided
 if [ $# -ne 1 ]; then
-    echo "Usage: \$0 <rg28xx|rg35xx-plus|rg35xx-h>"
+    echo "Usage: \$0 <rg28xx|rg35xx-plus|rg35xx-h|rg35xx-sp|rg40xx>"
     exit 1
 fi
 
@@ -14,8 +14,17 @@ case $ARG in
     "rg28xx")
         REPLACEMENT="rg28xx"
         ;;
-    "rg35xx-plus"|"rg35xx-h")
+    "rg35xx-plus")
         REPLACEMENT="rg35xx-plus"
+        ;;
+    "rg35xx-h")
+        REPLACEMENT="rg35xx-h"
+        ;;
+    "rg35xx-sp")
+        REPLACEMENT="rg35xx-sp"
+        ;;
+    "rg40xx")
+        REPLACEMENT="rg40xx"
         ;;
     *)
         echo "Invalid argument. Only 'rg28xx', 'rg35xx-plus', or 'rg35xx-H' are allowed."
