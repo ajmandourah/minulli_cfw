@@ -17,7 +17,7 @@ index 6e71fac9b..403a077df 100644
 @@ -249,6 +249,11 @@ MALI_InitBlitterContext(_THIS, MALI_Blitter *blitter, SDL_WindowData *windata, N
      const GLchar *sources[2] = { blit_vert, blit_frag_standard };
      float scale[2];
- 
+
 +    /* Bail out early if we're already initialized. */
 +    if (blitter->was_initialized) {
 +        return 1;
@@ -29,7 +29,7 @@ index 6e71fac9b..403a077df 100644
 @@ -266,11 +271,6 @@ MALI_InitBlitterContext(_THIS, MALI_Blitter *blitter, SDL_WindowData *windata, N
          }
      }
- 
+
 -    /* Bail out early if we're already initialized. */
 -    if (blitter->initted) {
 -        return 1;
@@ -41,21 +41,21 @@ index 6e71fac9b..403a077df 100644
 @@ -363,7 +363,7 @@ MALI_InitBlitterContext(_THIS, MALI_Blitter *blitter, SDL_WindowData *windata, N
          MALI_Blitter_GetTexture(_this, blitter, &windata->surface[i]);
      }
- 
+
 -    blitter->initted = 1;
 +    blitter->was_initialized = 1;
      return 1;
  }
- 
+
 @@ -393,7 +393,7 @@ MALI_DeinitBlitterContext(_THIS, MALI_Blitter *blitter)
      blitter->eglReleaseThread();
- 
+
      blitter->window = NULL;
 -    blitter->initted = 0;
 +    blitter->was_initialized = 0;
      SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "MALI_BlitterThread: Released thread.\n");
  }
- 
+
 @@ -464,16 +464,22 @@ int MALI_BlitterThread(void *data)
          // A thread stop can be either due to reconfigure requested, or due to
          // SDL teardown, in both cases, we will destroy some resources.
@@ -64,7 +64,7 @@ index 6e71fac9b..403a077df 100644
 +            if (blitter->was_initialized) {
                  MALI_DeinitBlitterContext(_this, blitter);
              }
- 
+
 +            // Done tearing down.
 +            blitter->thread_stop = 0;
 +
@@ -73,7 +73,7 @@ index 6e71fac9b..403a077df 100644
 +            if (blitter->thread_stop == 2)
                  break;
 -            }
- 
+
 -            blitter->thread_stop = 0;
 +            continue;
 +        }
@@ -82,11 +82,11 @@ index 6e71fac9b..403a077df 100644
 +            SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "MALI_BlitterThread: NULL window.");
              continue;
          }
- 
+
 @@ -551,8 +557,13 @@ void MALI_BlitterReconfigure(_THIS, SDL_Window *window, MALI_Blitter *blitter)
      if (!blitter)
          return;
- 
+
 -    /* Flag a reconfigure request */
      SDL_LockMutex(blitter->mutex);
 +    if (blitter->was_initialized) {
@@ -114,7 +114,7 @@ index 6e71fac9b..403a077df 100644
 +    /* Flag a release request */
 +    SDL_LockMutex(blitter->mutex);
      blitter->thread_stop = 1;
- 
+
      /* Signal thread in order to perform stop */
      SDL_CondSignal(blitter->cond);
      SDL_UnlockMutex(blitter->mutex);
@@ -123,7 +123,7 @@ index 6e71fac9b..403a077df 100644
 +    while (blitter->thread_stop != 0)
 +        SDL_Delay(0);
  }
- 
+
  void MALI_BlitterQuit(MALI_Blitter *blitter)
 diff --git a/src/video/mali-fbdev/SDL_maliblitter.h b/src/video/mali-fbdev/SDL_maliblitter.h
 index 23600e6d6..7e308759c 100644
@@ -135,16 +135,16 @@ index 23600e6d6..7e308759c 100644
      int next;
 -    int initted;
 +    int was_initialized
- 
+
      void *user_data;
- 
+
 @@ -49,6 +49,7 @@ extern int MALI_InitBlitterContext(_THIS, MALI_Blitter *blitter, SDL_WindowData
  extern int MALI_BlitterThread(void *data);
  void MALI_BlitterInit(_THIS, MALI_Blitter *blitter);
  extern void MALI_BlitterReconfigure(_THIS, SDL_Window *window, MALI_Blitter *blitter);
 +extern void MALI_BlitterRelease(_THIS, SDL_Window *window, MALI_Blitter *blitter);
  extern void MALI_BlitterQuit(MALI_Blitter *blitter);
- 
+
  #endif /* SDL_VIDEO_OPENGL_EGL */
 diff --git a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_malivideo.c
 index 197cdb42e..fc292e91e 100644
@@ -152,7 +152,7 @@ index 197cdb42e..fc292e91e 100644
 +++ b/src/video/mali-fbdev/SDL_malivideo.c
 @@ -238,11 +238,19 @@ MALI_SetDisplayMode(_THIS, SDL_VideoDisplay * display, SDL_DisplayMode * mode)
  }
- 
+
  static EGLSurface *
 -MALI_EGL_InitPixmapSurfaces(_THIS, int width, int height, SDL_WindowData *windowdata, SDL_DisplayData *displaydata)
 +MALI_EGL_InitPixmapSurfaces(_THIS, SDL_Window *window)
@@ -161,7 +161,7 @@ index 197cdb42e..fc292e91e 100644
      struct ion_allocation_data allocation_data;
 -    int i, io;
 +    SDL_DisplayData *displaydata;
-+    SDL_WindowData *windowdata; 
++    SDL_WindowData *windowdata;
 +    int i, io, width, height;
 +
 +    windowdata = window->driverdata;
@@ -169,27 +169,27 @@ index 197cdb42e..fc292e91e 100644
 +
 +    width = window->w;
 +    height = window->h;
- 
+
      _this->egl_data->egl_surfacetype = EGL_PIXMAP_BIT;
      if (SDL_EGL_ChooseConfig(_this) != 0) {
 @@ -333,6 +341,10 @@ MALI_EGL_InitPixmapSurfaces(_THIS, int width, int height, SDL_WindowData *window
          }
      }
- 
+
 +    /* Reconfigure the blitter now. */
 +    MALI_BlitterReconfigure(_this, window, displaydata->blitter);
 +
 +    /* Done. */
      return windowdata->surface[windowdata->back_buffer].egl_surface;
  }
- 
+
 @@ -348,9 +360,12 @@ MALI_EGL_DeinitPixmapSurfaces(_THIS, SDL_Window *window)
      displaydata = SDL_GetDisplayDriverData(0);
      if (!displaydata->blitter)
          return;
 -
 -    MALI_BlitterReconfigure(_this, window, displaydata->blitter);
-     
+
 +    // Tear down the device resources first
 +    MALI_BlitterRelease(_this, window, displaydata->blitter);
 +
@@ -205,12 +205,12 @@ index 197cdb42e..fc292e91e 100644
 +
 +    SDL_UnlockMutex(displaydata->blitter->mutex);
  }
- 
+
  int
 @@ -411,6 +411,9 @@
          return SDL_OutOfMemory();
      }
- 
+
 +     /* Setup driver data for this window */
 +     window->driverdata = windowdata;
 +
@@ -220,17 +220,17 @@ index 197cdb42e..fc292e91e 100644
 @@ -427,8 +447,7 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
              return SDL_SetError("mali-fbdev: Can't find mali pixmap entrypoints");
          }
- 
+
 -        windowdata->egl_surface = MALI_EGL_InitPixmapSurfaces(_this, window->w, window->h, windowdata, displaydata);
 -        MALI_BlitterReconfigure(_this, window, displaydata->blitter);
-+        windowdata->egl_surface = MALI_EGL_InitPixmapSurfaces(_this, window);    
++        windowdata->egl_surface = MALI_EGL_InitPixmapSurfaces(_this, window);
      } else {
          windowdata->egl_surface = SDL_EGL_CreateSurface(_this, (NativeWindowType) &displaydata->native_display);
      }
 @@ -438,9 +457,6 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
          return SDL_SetError("mali-fbdev: Can't create EGL window surface");
      }
- 
+
 -    /* Setup driver data for this window */
 -    window->driverdata = windowdata;
 -
@@ -239,14 +239,14 @@ index 197cdb42e..fc292e91e 100644
      SDL_SetKeyboardFocus(window);
 @@ -509,8 +525,7 @@ MALI_SetWindowSize(_THIS, SDL_Window * window)
              return;
- 
+
          MALI_EGL_DeinitPixmapSurfaces(_this, window);
 -        windowdata->egl_surface = MALI_EGL_InitPixmapSurfaces(_this, window->w, window->h, windowdata, displaydata);
 -        MALI_BlitterReconfigure(_this, window, displaydata->blitter);
 +        windowdata->egl_surface = MALI_EGL_InitPixmapSurfaces(_this, window);
      }
  }
- 
--- 
+
+--
 2.20.1
 

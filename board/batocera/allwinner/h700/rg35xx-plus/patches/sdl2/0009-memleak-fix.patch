@@ -18,7 +18,7 @@ index 6aa9d8f4e..6fc3fd7a6 100644
              0,
              EGL_FOREVER_NV))
          {
-+            /* 
++            /*
 +                JohnnyonFlame: Mali bug. If we don't manually destroy the fence here
 +                this is going to leak and crash.
 +            */
@@ -27,7 +27,7 @@ index 6aa9d8f4e..6fc3fd7a6 100644
 +
              /* Discarding previous data... */
              blitter->glClear(GL_COLOR_BUFFER_BIT);
- 
+
 diff --git a/src/video/mali-fbdev/SDL_maliopengles.c b/src/video/mali-fbdev/SDL_maliopengles.c
 index 7819f2da1..d99e33558 100644
 --- a/src/video/mali-fbdev/SDL_maliopengles.c
@@ -35,7 +35,7 @@ index 7819f2da1..d99e33558 100644
 @@ -68,6 +68,16 @@ int MALI_GLES_SwapWindow(_THIS, SDL_Window * window)
     windowdata->queued_buffer = windowdata->back_buffer;
     windowdata->back_buffer = prev;
- 
+
 +   // Do we have anything left over from the previous frame?
 +   if (windowdata->surface[windowdata->back_buffer].egl_fence != EGL_NO_SYNC) {
 +      _this->egl_data->eglDestroySyncKHR(
@@ -60,7 +60,7 @@ index 5de6ff169..a13375c55 100644
 +
 +        surf->egl_fence = EGL_NO_SYNC;
      }
- 
+
      /* Acquire an entry point to the glFlush function used to flush the buffered commands on "swap". */
 diff --git a/src/video/mali-fbdev/SDL_maliblitter.c b/src/video/mali-fbdev/SDL_maliblitter.c
 index 6fc3fd7a6..c91f2b191 100644
@@ -69,7 +69,7 @@ index 6fc3fd7a6..c91f2b191 100644
 @@ -249,11 +249,6 @@ MALI_InitBlitterContext(_THIS, MALI_Blitter *blitter, SDL_WindowData *windata, N
      const GLchar *sources[2] = { blit_vert, blit_frag_standard };
      float scale[2];
- 
+
 -    /* Bail out early if we're already initialized. */
 -    if (blitter->was_initialized) {
 -        return 1;
@@ -92,13 +92,13 @@ index 6fc3fd7a6..c91f2b191 100644
      unsigned int page;
 -    MALI_EGL_Surface *current_surface;
 +    MALI_EGL_Surface *current_surface = NULL;
-     
+
      MALI_Blitter_LoadFuncs(blitter);
- 
+
 @@ -484,16 +479,20 @@ int MALI_BlitterThread(void *data)
              continue;
          }
- 
+
 -        window = blitter->window;
 -        windata = (SDL_WindowData *)window->driverdata;
 -        display = SDL_GetDisplayForWindow(window);
@@ -121,7 +121,7 @@ index 6fc3fd7a6..c91f2b191 100644
 +            {
 +                SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Failed to initialize blitter thread");
 +                SDL_Quit();
-+            }            
++            }
          }
- 
+
          if (prevSwapInterval != _this->egl_data->egl_swapinterval) {

@@ -3,7 +3,7 @@ diff -urN sdl2-2.0.22/cmake/sdlchecks.cmake build/sdl2-2.0.22/cmake/sdlchecks.cm
 +++ b/cmake/sdlchecks.cmake	2022-09-12 15:58:19.338361448 +0000
 @@ -804,6 +804,28 @@
  endmacro()
- 
+
  # Requires:
 +# - n/a
 +macro(CheckMali)
@@ -55,7 +55,7 @@ diff -urN sdl2-2.0.22/configure build/sdl2-2.0.22/configure
 @@ -22686,6 +22686,56 @@
      fi
  }
- 
+
 +CheckMaliVideo()
 +{
 +    # Check whether --enable-video-mali was given.
@@ -114,7 +114,7 @@ diff -urN sdl2-2.0.22/configure build/sdl2-2.0.22/configure
          CheckRPATH
          CheckVivanteVideo
 +	CheckMaliVideo
- 
+
          # Set up files for the misc library
          if test x$enable_misc = xyes; then
 diff -urN sdl2-2.0.22/include/SDL_config.h.cmake build/sdl2-2.0.22/include/SDL_config.h.cmake
@@ -638,18 +638,6 @@ diff -urN sdl2-2.0.22/src/video/mali-fbdev/SDL_malivideo.h build/sdl2-2.0.22/src
 +
 +/* vi: set ts=4 sw=4 expandtab: */
 +
-diff -urN sdl2-2.0.22/src/video/SDL_egl.c build/sdl2-2.0.22/src/video/SDL_egl.c
---- a/src/video/SDL_egl.c	2022-09-13 19:22:27.575790497 +0000
-+++ b/src/video/SDL_egl.c	2022-09-12 15:58:19.342361438 +0000
-@@ -59,7 +59,7 @@
- #define DEFAULT_OGL_ES_PVR ( vc4 ? "libGLES_CM.so.1" : "libbrcmGLESv2.so" )
- #define DEFAULT_OGL_ES ( vc4 ? "libGLESv1_CM.so.1" : "libbrcmGLESv2.so" )
- 
--#elif SDL_VIDEO_DRIVER_ANDROID || SDL_VIDEO_DRIVER_VIVANTE
-+#elif SDL_VIDEO_DRIVER_ANDROID || SDL_VIDEO_DRIVER_VIVANTE || SDL_VIDEO_DRIVER_MALI
- /* Android */
- #define DEFAULT_EGL "libEGL.so"
- #define DEFAULT_OGL_ES2 "libGLESv2.so"
 diff -urN sdl2-2.0.22/src/video/SDL_sysvideo.h build/sdl2-2.0.22/src/video/SDL_sysvideo.h
 --- a/src/video/SDL_sysvideo.h	2022-04-09 01:19:19.000000000 +0000
 +++ b/src/video/SDL_sysvideo.h	2022-09-12 15:58:19.342361438 +0000
@@ -661,16 +649,30 @@ diff -urN sdl2-2.0.22/src/video/SDL_sysvideo.h build/sdl2-2.0.22/src/video/SDL_s
  extern VideoBootStrap Emscripten_bootstrap;
  extern VideoBootStrap QNX_bootstrap;
  extern VideoBootStrap OFFSCREEN_bootstrap;
-diff -urN sdl2-2.0.22/src/video/SDL_video.c build/sdl2-2.0.22/src/video/SDL_video.c
---- a/src/video/SDL_video.c	2022-04-21 17:37:37.000000000 +0000
-+++ b/src/video/SDL_video.c	2022-09-12 15:58:19.342361438 +0000
-@@ -70,6 +70,9 @@
- #if SDL_VIDEO_DRIVER_VIVANTE
+diff --git a/src/video/SDL_egl.c b/src/video/SDL_egl.c
+index a89c0e8..a843b3f 100644
+--- a/src/video/SDL_egl.c
++++ b/src/video/SDL_egl.c
+@@ -66,7 +66,7 @@
+ #define DEFAULT_OGL_ES_PVR (vc4 ? "libGLES_CM.so.1" : "libbrcmGLESv2.so")
+ #define DEFAULT_OGL_ES     (vc4 ? "libGLESv1_CM.so.1" : "libbrcmGLESv2.so")
+
+-#elif defined(SDL_VIDEO_DRIVER_ANDROID) || defined(SDL_VIDEO_DRIVER_VIVANTE)
++#elif defined(SDL_VIDEO_DRIVER_ANDROID) || defined(SDL_VIDEO_DRIVER_VIVANTE) || SDL_VIDEO_DRIVER_MALI
+ /* Android */
+ #define DEFAULT_EGL        "libEGL.so"
+ #define DEFAULT_OGL_ES2    "libGLESv2.so"
+diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
+index c1a2dbd..99dba47 100644
+--- a/src/video/SDL_video.c
++++ b/src/video/SDL_video.c
+@@ -78,6 +78,9 @@ static VideoBootStrap *bootstrap[] = {
+ #ifdef SDL_VIDEO_DRIVER_VIVANTE
      &VIVANTE_bootstrap,
  #endif
-+#if SDL_VIDEO_DRIVER_MALI
++#ifdef SDL_VIDEO_DRIVER_MALI
 +    &MALI_bootstrap,
-+#endif 
- #if SDL_VIDEO_DRIVER_DIRECTFB
++#endif
+ #ifdef SDL_VIDEO_DRIVER_DIRECTFB
      &DirectFB_bootstrap,
  #endif

@@ -17,7 +17,7 @@ index 8c40a1a4f..35d82cf98 100644
 @@ -252,6 +252,8 @@ MALI_EGL_InitPixmapSurfaces(_THIS, SDL_Window *window)
      width = window->w;
      height = window->h;
- 
+
 +    _this->gl_config.multisamplebuffers = 0;
 +    _this->gl_config.multisamplesamples = 0;
      _this->egl_data->egl_surfacetype = EGL_PIXMAP_BIT;
