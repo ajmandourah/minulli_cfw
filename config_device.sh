@@ -58,6 +58,7 @@ update_line_if_needed() {
 if [ -f "$CONFIG_FILE" ]; then
     update_line_if_needed "$CONFIG_FILE" 'BR2_GLOBAL_PATCH_DIR=' "BR2_GLOBAL_PATCH_DIR=\"\$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/patches \$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/patches \$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/patches \$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/$REPLACEMENT/patches \""
     update_line_if_needed "$CONFIG_FILE" 'BR2_ROOTFS_OVERLAY=' "BR2_ROOTFS_OVERLAY=\"\$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/fsoverlay \$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/fsoverlay \$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/$REPLACEMENT/fsoverlay \""
+    update_line_if_needed "$CONFIG_FILE" 'BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE=' "BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE=\"\$(BR2_EXTERNAL_BATOCERA_PATH)/board/batocera/allwinner/h700/$REPLACEMENT/linux-sunxi64-legacy.config\""
 else
     echo "File $CONFIG_FILE not found!"
     exit 1

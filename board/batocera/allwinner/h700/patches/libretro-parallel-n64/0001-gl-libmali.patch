@@ -1,0 +1,11 @@
+--- a/Makefile	2024-07-08 13:39:51.236931472 -0400
++++ b/Makefile	2024-07-08 13:39:57.552977195 -0400
+@@ -227,7 +227,7 @@
+       # Allwinner H5
+    ifneq (,$(findstring h5,$(platform)))
+       GLES = 1
+-      GL_LIB := -lGLESv2
++      GL_LIB := -lGLESv2 -lmali
+       CPUFLAGS += -DNO_ASM -DARM -DARM_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64
+       HAVE_NEON = 1
+       WITH_DYNAREC=aarch64
