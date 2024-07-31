@@ -38,17 +38,15 @@ index 47f5e6ee7..9913be03f 100644
 +    LOAD_FUNC(eglGetCurrentSurface);
      LOAD_FUNC(eglDestroySurface);
      LOAD_FUNC(eglMakeCurrent);
-     LOAD_FUNC(eglSwapBuffers);
+
 diff --git a/src/video/SDL_egl_c.h b/src/video/SDL_egl_c.h
-index feb889a1c..f1f8052b5 100644
+index 3fc2977..91fcd7b 100644
 --- a/src/video/SDL_egl_c.h
 +++ b/src/video/SDL_egl_c.h
-@@ -67,7 +67,12 @@ typedef struct SDL_EGL_VideoData
-                                    const EGLint * attrib_list);
-     
+@@ -68,6 +68,11 @@ typedef struct SDL_EGL_VideoData
+
      EGLBoolean(EGLAPIENTRY *eglDestroyContext) (EGLDisplay dpy, EGLContext ctx);
--    
-+
+
 +    EGLSurface(EGLAPIENTRY *eglCreatePixmapSurface) (EGLDisplay dpy,
 +                                         EGLConfig config,
 +                                         NativePixmapType pixmap,
@@ -56,16 +54,16 @@ index feb889a1c..f1f8052b5 100644
 +
      EGLSurface(EGLAPIENTRY *eglCreatePbufferSurface)(EGLDisplay dpy, EGLConfig config,
                                                       EGLint const* attrib_list);
- 
-@@ -76,6 +81,8 @@ typedef struct SDL_EGL_VideoData
-                                          NativeWindowType window,
+
+@@ -77,6 +82,8 @@ typedef struct SDL_EGL_VideoData
                                           const EGLint * attrib_list);
      EGLBoolean(EGLAPIENTRY *eglDestroySurface) (EGLDisplay dpy, EGLSurface surface);
-+
+
 +    EGLSurface(EGLAPIENTRY *eglGetCurrentSurface) (EGLint readdraw);
-     
++
      EGLBoolean(EGLAPIENTRY *eglMakeCurrent) (EGLDisplay dpy, EGLSurface draw,
-                                  EGLSurface read, EGLContext ctx);
+                                  EGLSurface read, EGLContext ctx);    LOAD_FUNC(eglSwapBuffers);
+
 diff --git a/src/video/mali-fbdev/SDL_maliblitter.c b/src/video/mali-fbdev/SDL_maliblitter.c
 new file mode 100644
 index 000000000..e335938a1
@@ -181,7 +179,7 @@ index 000000000..e335938a1
 +        SDL_SetError("EGL not initialized");
 +        return 0;
 +    }
-+    
++
 +    blitter->egl_display = _this->egl_data->egl_display;
 +    if (blitter->eglGetConfigs(blitter->egl_display, configs, MAX_CONFIGS, &config_count) == EGL_FALSE) {
 +        SDL_EGL_SetError("mali-fbdev: No compatible EGL configs", "eglGetConfigs");
@@ -343,7 +341,7 @@ index 000000000..e335938a1
 +    if (!MALI_Blitter_CreateContext(_this, blitter, nw)) {
 +        return 0;
 +    }
-+    
++
 +    if (!blitter->eglMakeCurrent(blitter->egl_display,
 +        blitter->egl_surface,
 +        blitter->egl_surface,
@@ -426,7 +424,7 @@ index 000000000..e335938a1
 +    blitter->glVertexAttribPointer(blitter->loc_aVertCoord, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0 * sizeof(float)));
 +    blitter->glVertexAttribPointer(blitter->loc_aTexCoord, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 +    blitter->glBufferData(GL_ARRAY_BUFFER, sizeof(blitter->vert_buffer_data), blitter->vert_buffer_data, GL_STATIC_DRAW);
-+    
++
 +    for (int i = 0; i < SDL_arraysize(windata->surface); i++) {
 +        MALI_Blitter_GetTexture(_this, blitter, &windata->surface[i]);
 +    }
@@ -519,7 +517,7 @@ index 000000000..e335938a1
 +    SDL_DisplayData *dispdata = SDL_GetDisplayDriverData(0);
 +    unsigned int page;
 +    MALI_EGL_Surface *current_surface;
-+    
++
 +    MALI_Blitter_LoadFuncs(blitter);
 +
 +    /* Signal triplebuf available */
@@ -527,7 +525,7 @@ index 000000000..e335938a1
 +    SDL_CondSignal(blitter->cond);
 +
 +    for (;;) {
-+        SDL_CondWait(blitter->cond, blitter->mutex);        
++        SDL_CondWait(blitter->cond, blitter->mutex);
 +
 +        // A thread stop can be either due to reconfigure requested, or due to
 +        // SDL teardown, in both cases, we will destroy some resources.
@@ -573,8 +571,8 @@ index 000000000..e335938a1
 +        /* wait for fence and flip display */
 +        if (blitter->eglClientWaitSyncKHR(
 +            blitter->egl_display,
-+            current_surface->egl_fence, 
-+            EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, 
++            current_surface->egl_fence,
++            EGL_SYNC_FLUSH_COMMANDS_BIT_KHR,
 +            EGL_FOREVER_NV))
 +        {
 +            /* Discarding previous data... */
@@ -594,7 +592,7 @@ index 000000000..e335938a1
 +        {
 +            SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "Sync %p failed.", current_surface->egl_fence);
 +        }
-+    }    
++    }
 +
 +    /* Signal thread done */
 +    SDL_UnlockMutex(blitter->mutex);
@@ -605,7 +603,7 @@ index 000000000..e335938a1
 +{
 +    if (!blitter)
 +        return;
-+    
++
 +    blitter->thread_stop = 1;
 +    blitter->mutex = SDL_CreateMutex();
 +    blitter->cond = SDL_CreateCond();
@@ -827,14 +825,14 @@ index 0e4836d2e..f16a2f76f 100644
 --- a/src/video/mali-fbdev/SDL_maliopengles.c
 +++ b/src/video/mali-fbdev/SDL_maliopengles.c
 @@ -22,20 +22,64 @@
- 
+
  #if SDL_VIDEO_DRIVER_MALI && SDL_VIDEO_OPENGL_EGL
- 
+
 -#include "SDL_maliopengles.h"
  #include "SDL_malivideo.h"
 +#include "SDL_maliopengles.h"
 +#include "SDL_maliblitter.h"
- 
+
  /* EGL implementation of SDL OpenGL support */
 +void MALI_GLES_DefaultProfileConfig(_THIS, int *mask, int *major, int *minor)
 +{
@@ -844,7 +842,7 @@ index 0e4836d2e..f16a2f76f 100644
 +    *major = 2;
 +    *minor = 0;
 +}
- 
+
  int
  MALI_GLES_LoadLibrary(_THIS, const char *path)
  {
@@ -887,14 +885,14 @@ index 0e4836d2e..f16a2f76f 100644
 +
 +   return (r == EGL_TRUE) ? 0 : SDL_EGL_SetError("Failed to set current surface.", "eglMakeCurrent");
  }
- 
+
 -SDL_EGL_CreateContext_impl(MALI)
 -SDL_EGL_SwapWindow_impl(MALI)
  SDL_EGL_MakeCurrent_impl(MALI)
 +SDL_EGL_CreateContext_impl(MALI)
- 
+
  #endif /* SDL_VIDEO_DRIVER_MALI && SDL_VIDEO_OPENGL_EGL */
- 
+
 diff --git a/src/video/mali-fbdev/SDL_maliopengles.h b/src/video/mali-fbdev/SDL_maliopengles.h
 index 121af74f9..3741b88d5 100644
 --- a/src/video/mali-fbdev/SDL_maliopengles.h
@@ -906,22 +904,22 @@ index 121af74f9..3741b88d5 100644
 -#define MALI_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 -#define MALI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
  #define MALI_GLES_DeleteContext SDL_EGL_DeleteContext
- 
+
  extern int MALI_GLES_LoadLibrary(_THIS, const char *path);
  extern SDL_GLContext MALI_GLES_CreateContext(_THIS, SDL_Window * window);
  extern int MALI_GLES_SwapWindow(_THIS, SDL_Window * window);
  extern int MALI_GLES_MakeCurrent(_THIS, SDL_Window * window, SDL_GLContext context);
 +extern void MALI_GLES_DefaultProfileConfig(_THIS, int *mask, int *major, int *minor);
- 
+
  #endif /* SDL_VIDEO_DRIVER_MALI && SDL_VIDEO_OPENGL_EGL */
- 
+
 diff --git a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_malivideo.c
 index f70ae6431..0024457f1 100644
 --- a/src/video/mali-fbdev/SDL_malivideo.c
 +++ b/src/video/mali-fbdev/SDL_malivideo.c
 @@ -23,19 +23,21 @@
  #if SDL_VIDEO_DRIVER_MALI
- 
+
  /* SDL internals */
 +#include "../../events/SDL_events_c.h"
  #include "../SDL_sysvideo.h"
@@ -934,21 +932,21 @@ index f70ae6431..0024457f1 100644
 +#include "SDL_syswm.h"
 +#include "SDL_hints.h"
 +#include "SDL_version.h"
- 
+
  #ifdef SDL_INPUT_LINUXEV
  #include "../../core/linux/SDL_evdev.h"
  #endif
- 
+
 -#include "SDL_malivideo.h"
  #include "SDL_maliopengles.h"
 +#include "SDL_malivideo.h"
 +#include "SDL_maliblitter.h"
- 
- 
+
+
  //static int
 @@ -59,7 +61,7 @@ MALI_Create()
      SDL_VideoDevice *device;
- 
+
      /* Initialize SDL_VideoDevice structure */
 -    device = (SDL_VideoDevice *) SDL_calloc(1, sizeof(SDL_VideoDevice));
 +    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
@@ -968,9 +966,9 @@ index f70ae6431..0024457f1 100644
      device->GL_SwapWindow = MALI_GLES_SwapWindow;
      device->GL_DeleteContext = MALI_GLES_DeleteContext;
 +    device->GL_DefaultProfileConfig = MALI_GLES_DefaultProfileConfig;
- 
+
      device->PumpEvents = MALI_PumpEvents;
- 
+
 @@ -105,7 +109,7 @@ MALI_Create()
  VideoBootStrap MALI_bootstrap = {
      "mali",
@@ -979,7 +977,7 @@ index f70ae6431..0024457f1 100644
 +    //    MALI_Available,
      MALI_Create
  };
- 
+
 @@ -116,6 +120,7 @@ VideoBootStrap MALI_bootstrap = {
  int
  MALI_VideoInit(_THIS)
@@ -991,7 +989,7 @@ index f70ae6431..0024457f1 100644
 @@ -132,6 +137,11 @@ MALI_VideoInit(_THIS)
          return SDL_SetError("mali-fbdev: Could not open framebuffer device");
      }
- 
+
 +    data->ion_fd = open("/dev/ion", O_RDWR, 0);
 +    if (data->ion_fd < 0) {
 +        return SDL_SetError("mali-fbdev: Could not open ion device");
@@ -1011,10 +1009,10 @@ index f70ae6431..0024457f1 100644
      close(fd);
 -//    system("setterm -cursor off");
 +    //    system("setterm -cursor off");
- 
+
      data->native_display.width = vinfo.xres;
      data->native_display.height = vinfo.yres;
- 
+
 +    /* If the device seems to be portrait mode, set default as rotated. */
 +    data->rotation = (vinfo.xres < vinfo.yres) ? 1 : 0;
 +
@@ -1048,7 +1046,7 @@ index f70ae6431..0024457f1 100644
      /* 32 bpp for default */
 @@ -166,7 +199,6 @@ MALI_VideoInit(_THIS)
      display.driverdata = data;
- 
+
      SDL_AddVideoDisplay(&display, SDL_FALSE);
 -
  #ifdef SDL_INPUT_LINUXEV
@@ -1068,13 +1066,13 @@ index f70ae6431..0024457f1 100644
 +    //    ioctl(fd, VT_ACTIVATE, 1);
 +    //    close(fd);
 +    //    system("setterm -cursor on");
- 
+
  #ifdef SDL_INPUT_LINUXEV
      SDL_EVDEV_Quit();
 @@ -205,33 +237,200 @@ MALI_SetDisplayMode(_THIS, SDL_VideoDisplay * display, SDL_DisplayMode * mode)
      return 0;
  }
- 
+
 +static EGLSurface *
 +MALI_EGL_InitPixmapSurfaces(_THIS, int width, int height, SDL_WindowData *windowdata, SDL_DisplayData *displaydata)
 +{
@@ -1188,7 +1186,7 @@ index f70ae6431..0024457f1 100644
 +        return;
 +
 +    MALI_BlitterReconfigure(_this, window, displaydata->blitter);
-+    
++
 +    // Disable current surface
 +    current_context = (EGLContext)SDL_GL_GetCurrentContext();
 +    current_surface = _this->egl_data->eglGetCurrentSurface(EGL_DRAW);
@@ -1223,16 +1221,16 @@ index f70ae6431..0024457f1 100644
      SDL_WindowData *windowdata;
 +    SDL_VideoDisplay *display = SDL_GetDisplayForWindow(window);
      SDL_DisplayData *displaydata;
- 
+
      displaydata = SDL_GetDisplayDriverData(0);
- 
+
      /* Allocate window internal data */
 -    windowdata = (SDL_WindowData *) SDL_calloc(1, sizeof(SDL_WindowData));
 +    windowdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
      if (windowdata == NULL) {
          return SDL_OutOfMemory();
      }
- 
+
 -    /* Windows have one size for now */
 -    window->w = displaydata->native_display.width;
 -    window->h = displaydata->native_display.height;
@@ -1241,7 +1239,7 @@ index f70ae6431..0024457f1 100644
 +        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESIZED,
 +                            display->current_mode.w, display->current_mode.h);
 +    }
- 
+
      /* OpenGL ES is the law here */
      window->flags |= SDL_WINDOW_OPENGL;
 -
@@ -1277,13 +1275,13 @@ index f70ae6431..0024457f1 100644
 +        windowdata->egl_surface = SDL_EGL_CreateSurface(_this, (NativeWindowType) &displaydata->native_display);
      }
 -    windowdata->egl_surface = SDL_EGL_CreateSurface(_this, (NativeWindowType) &displaydata->native_display);
- 
+
      if (windowdata->egl_surface == EGL_NO_SURFACE) {
          MALI_VideoQuit(_this);
 @@ -249,13 +448,13 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
      return 0;
  }
- 
+
 -void
 -MALI_DestroyWindow(_THIS, SDL_Window * window)
 +void MALI_DestroyWindow(_THIS, SDL_Window *window)
@@ -1291,7 +1289,7 @@ index f70ae6431..0024457f1 100644
      SDL_WindowData *data;
 -
      data = window->driverdata;
-+    
++
      if (data) {
 +        MALI_EGL_DeinitPixmapSurfaces(_this, window);
          if (data->egl_surface != EGL_NO_SURFACE) {
@@ -1330,12 +1328,12 @@ index f70ae6431..0024457f1 100644
 +            MALI_SetWindowSize(_this, window);
 +    }
  }
- 
+
  void
 @@ -290,6 +517,25 @@ MALI_HideWindow(_THIS, SDL_Window * window)
  {
  }
- 
+
 +int
 +MALI_GLES_SetSwapInterval(_THIS, int interval)
 +{
@@ -1365,7 +1363,7 @@ index f70ae6431..0024457f1 100644
 -            SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
 +                     SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
      }
- 
+
      /* Failed to get window manager information */
 diff --git a/src/video/mali-fbdev/SDL_malivideo.h b/src/video/mali-fbdev/SDL_malivideo.h
 index 175483a88..3fad6e795 100644
@@ -1373,11 +1371,11 @@ index 175483a88..3fad6e795 100644
 +++ b/src/video/mali-fbdev/SDL_malivideo.h
 @@ -26,27 +26,56 @@
  #include "../SDL_sysvideo.h"
- 
+
  #include "SDL_egl.h"
 +#include "SDL_opengl.h"
 +#include "mali.h"
- 
+
  #include <EGL/egl.h>
  #include <linux/vt.h>
  #include <linux/fb.h>
@@ -1387,7 +1385,7 @@ index 175483a88..3fad6e795 100644
  #include <fcntl.h>
  #include <unistd.h>
  #include <stdlib.h>
- 
+
 +#include "mali.h"
 +#include "ion.h"
 +
@@ -1407,7 +1405,7 @@ index 175483a88..3fad6e795 100644
 +    NativePixmapType (*egl_create_pixmap_ID_mapping)(mali_pixmap *);
 +    NativePixmapType (*egl_destroy_pixmap_ID_mapping)(int id);
  } SDL_DisplayData;
- 
+
 +typedef struct MALI_EGL_Surface
 +{
 +    // A pixmap is backed by multiple ION allocated backbuffers, EGL fences, etc.
@@ -1430,7 +1428,7 @@ index 175483a88..3fad6e795 100644
 +
 +    MALI_EGL_Surface surface[3];
  } SDL_WindowData;
- 
+
  /****************************************************************************/
 @@ -62,9 +91,12 @@ int MALI_CreateWindow(_THIS, SDL_Window * window);
  void MALI_SetWindowTitle(_THIS, SDL_Window * window);
@@ -1442,7 +1440,7 @@ index 175483a88..3fad6e795 100644
  void MALI_DestroyWindow(_THIS, SDL_Window * window);
 +int MALI_GLES_SetSwapInterval(_THIS, int interval);
 +int MALI_GLES_GetSwapInterval(_THIS);
- 
+
  /* Window manager function */
  SDL_bool MALI_GetWindowWMInfo(_THIS, SDL_Window * window,
 diff --git a/src/video/mali-fbdev/ion.h b/src/video/mali-fbdev/ion.h
@@ -1747,7 +1745,7 @@ index 000000000..c7df119d1
 +} mali_plane;
 +
 +typedef struct mali_pixmap {
-+    int width, height; 
++    int width, height;
 +
 +    mali_plane planes[3];
 +
@@ -1764,6 +1762,6 @@ index 000000000..c7df119d1
 +
 +#endif /* __MALI_H__ */
 \ No newline at end of file
--- 
+--
 2.20.
 

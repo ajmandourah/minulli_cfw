@@ -14,17 +14,17 @@ index 35d82cf98..5de6ff169 100644
 @@ -244,7 +244,8 @@ MALI_EGL_InitPixmapSurfaces(_THIS, SDL_Window *window)
      struct ion_allocation_data allocation_data;
      SDL_DisplayData *displaydata;
-     SDL_WindowData *windowdata; 
+     SDL_WindowData *windowdata;
 -    int i, io, width, height;
 +    int i, io, width, height, attr = 0;
 +    GLint surf_attribs[3] = {};
- 
+
      windowdata = window->driverdata;
      displaydata = SDL_GetDisplayDriverData(0);
 @@ -260,6 +261,15 @@ MALI_EGL_InitPixmapSurfaces(_THIS, SDL_Window *window)
          return EGL_NO_SURFACE;
      }
- 
+
 +    /* Did we request a sRGB surface? */
 +    if (_this->gl_config.framebuffer_srgb_capable) {
 +        surf_attribs[attr++] = EGL_GL_COLORSPACE_KHR;

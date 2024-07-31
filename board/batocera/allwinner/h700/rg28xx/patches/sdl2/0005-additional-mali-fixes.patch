@@ -14,11 +14,11 @@ diff -urN a/src/video/mali-fbdev/SDL_maliblitter.c b/src/video/mali-fbdev/SDL_ma
 +        blitter->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 +        blitter->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 +    }
- 
+
      /* And populate our texture with the EGLImage */
      blitter->glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, surf->egl_image);
 @@ -251,18 +256,19 @@
- 
+
      /*
       * SDL_HQ_SCALER: Selects one of the available scalers:
 -     * - 0: Linear filtering
@@ -43,7 +43,7 @@ diff -urN a/src/video/mali-fbdev/SDL_maliblitter.c b/src/video/mali-fbdev/SDL_ma
 -    } else {
 -        use_hq_scaler = NULL;
      }
- 
+
      /* The blitter thread needs to have an OpenGL ES 2.0 context available! */
 @@ -288,8 +294,8 @@
          (rotation == 3) ? "vTexCoord = vec2(-aTexCoord.y, aTexCoord.x);" :
@@ -53,13 +53,13 @@ diff -urN a/src/video/mali-fbdev/SDL_maliblitter.c b/src/video/mali-fbdev/SDL_ma
 -                        : "vTexCoord = vTexCoord / uTexSize;");
 +        (blitter->scaler >= 2) ? "vTexCoord = vTexCoord;"
 +                               : "vTexCoord = vTexCoord / uTexSize;");
- 
+
      /* Compile vertex shader */
      blitter->vert = blitter->glCreateShader(GL_VERTEX_SHADER);
 @@ -608,4 +614,4 @@
      SDL_DestroyCond(blitter->cond);
  }
- 
+
 -#endif /* SDL_VIDEO_OPENGL_EGL */
 \ No newline at end of file
 +#endif /* SDL_VIDEO_OPENGL_EGL */
@@ -73,15 +73,15 @@ diff -urN a/src/video/mali-fbdev/SDL_maliblitter.h b/src/video/mali-fbdev/SDL_ma
 -    int was_initialized
 +    int scaler;
 +    int was_initialized;
- 
+
      void *user_data;
- 
+
 diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_malivideo.c
 --- a/src/video/mali-fbdev/SDL_malivideo.c	2024-05-18 18:10:45.868590334 +0000
 +++ b/src/video/mali-fbdev/SDL_malivideo.c	2024-05-18 18:10:24.740645905 +0000
 @@ -259,13 +259,6 @@
      }
- 
+
      SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "mali-fbdev: Creating Pixmap (%dx%d) buffers", width, height);
 -    if (_this->gl_config.framebuffer_srgb_capable) {
 -        {
@@ -98,18 +98,18 @@ diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_mali
      SDL_VideoDisplay *display = SDL_GetDisplayForWindow(window);
      SDL_DisplayData *displaydata;
 +    EGLContext egl_context;
- 
+
      displaydata = SDL_GetDisplayDriverData(0);
- 
+
 @@ -411,11 +405,12 @@
          return SDL_OutOfMemory();
      }
- 
+
 -     /* Setup driver data for this window */
 -     window->driverdata = windowdata;
 +    /* Setup driver data for this window */
 +    window->driverdata = windowdata;
- 
+
 -    /* Use the entire screen when the blitter isn't enabled */
 -    if (displaydata->blitter) {
 +    /* Use the entire screen when the blitter isn't enabled or the selected
@@ -121,7 +121,7 @@ diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_mali
 @@ -456,6 +451,13 @@
          return SDL_SetError("mali-fbdev: Can't create EGL window surface");
      }
- 
+
 +    /* Set the current surface NOW. */
 +    egl_context = (EGLContext)SDL_GL_GetCurrentContext();
 +    if (SDL_EGL_MakeCurrent(_this, windowdata->egl_surface, egl_context) != 0) {
@@ -139,12 +139,12 @@ diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_mali
 +    SDL_VideoDisplay *display;
      SDL_DisplayData *displaydata;
 +    EGLContext egl_context;
- 
+
      windowdata = window->driverdata;
 -    displaydata = SDL_GetDisplayDriverData(0);
 +    display = SDL_GetDisplayForWindow(window);
 +    displaydata = display->driverdata;
- 
+
 -    // If we're using the blitter, we need to warn it about the surface reconfiguration!
 +    /*
 +     * Switch to a fullscreen resolution whenever:
@@ -174,7 +174,7 @@ diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_mali
 +        SDL_EGL_MakeCurrent(_this, windowdata->egl_surface, egl_context);
      }
  }
- 
+
  void
  MALI_SetWindowFullscreen(_THIS, SDL_Window *window, SDL_VideoDisplay *display, SDL_bool fullscreen)
  {
@@ -191,5 +191,5 @@ diff -urN a/src/video/mali-fbdev/SDL_malivideo.c b/src/video/mali-fbdev/SDL_mali
 -    }
 +    MALI_SetWindowSize(_this, window);
  }
- 
+
  void
